@@ -40,8 +40,8 @@ implements BaseRepository<M, ID>{
 		this.entityInformation = entityInformation;
 		this.entityClass = this.entityInformation.getJavaType();
 		respositoryHelper = new RespositoryHelper(entityClass);
-		 this.idName = this.entityInformation.getIdAttributeNames().iterator().next();
-		 this.entityName = this.entityInformation.getEntityName();
+		this.idName = this.entityInformation.getIdAttributeNames().iterator().next();
+		this.entityName = this.entityInformation.getEntityName();
 	}
 
 	@Transactional
@@ -78,14 +78,7 @@ implements BaseRepository<M, ID>{
 		respositoryHelper.batchUpdate(ql, models);
 		
 	}
-	public Page<M> findAll(Searchable searchable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public long count(Searchable searchable) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
+	
 
 }

@@ -110,6 +110,7 @@
     <jpa:repositories
             base-package="com.achui.quick"
             repository-impl-postfix="Impl"
+            factory-class="com.achui.quick.common.repository.support.DefaultBaseRepositoryFactoryBean"
             entity-manager-factory-ref="entityManagerFactory"
             transaction-manager-ref="transactionManager">
 

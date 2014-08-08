@@ -17,27 +17,5 @@ public interface BaseRepository<M,ID extends Serializable> extends JpaRepository
 	 * @param ids
 	 */
 	public void delete(List<ID> ids);
-	
-	
-	/**
-	 * 根据查询条件查询结果集，分页显示
-	 * @param searchable
-	 * @return
-	 */
-	public Page<M> findAll(Searchable searchable);
-	
-	
-	/**
-	 * 根据查询条件获取记录数
-	 * @param searchable
-	 * @return
-	 */
-	public long count(Searchable searchable); 
-	
-	
-	
-	
-	
-	
 
 }
