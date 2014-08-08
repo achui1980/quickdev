@@ -2,19 +2,19 @@ package com.achui.quick.common.repository.support;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.util.CollectionUtils;
 
 import com.achui.quick.common.entity.AbstractEntity;
-import com.achui.quick.common.entity.Searchable;
 import com.achui.quick.common.repository.BaseRepository;
 import com.achui.quick.common.repository.RespositoryHelper;
 
@@ -74,6 +74,7 @@ implements BaseRepository<M, ID>{
 		if(CollectionUtils.isEmpty(models)){
 			return;
 		}
+		Set set = new HashSet<M>(models);
 		String ql = String.format(DELETE_ALL_QUERY_STRING, entityName);
 		respositoryHelper.batchUpdate(ql, models);
 		

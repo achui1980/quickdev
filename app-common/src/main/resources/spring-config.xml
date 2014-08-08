@@ -121,5 +121,12 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+    
+    <!--设置BaseRepositoryImplHelper辅助类所需的entityManagerFactory-->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"
+                  value="com.achui.quick.common.repository.RespositoryHelper.setEntityManagerFactory"/>
+        <property name="arguments" ref="entityManagerFactory"/>
+    </bean>
 
 </beans>

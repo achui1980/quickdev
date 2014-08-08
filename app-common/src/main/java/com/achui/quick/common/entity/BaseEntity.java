@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass;
 public class BaseEntity<ID extends Serializable> extends AbstractEntity<ID>{
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private ID id;
 	
 	@Override

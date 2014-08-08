@@ -4,20 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javassist.expr.NewArray;
-
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.test.annotation.Rollback;
 
 import com.achui.quick.common.domain.User;
@@ -62,6 +55,10 @@ public class RespositoryHelperTest extends BaseIT {
 	    	String ql = "select obj from User obj";
 	    	List<User> users = repositoryHelper.findAll(ql, new PageRequest(0, 3), (Map)null);
 	    	System.out.println(users.size());
+	    }
+	    
+	    @Test
+	    public void testDelete(){
 	    }
 
 }
