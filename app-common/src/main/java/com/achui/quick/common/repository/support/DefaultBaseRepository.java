@@ -4,14 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.achui.quick.common.entity.AbstractEntity;
@@ -77,6 +80,32 @@ implements BaseRepository<M, ID>{
 		Set set = new HashSet<M>(models);
 		String ql = String.format(DELETE_ALL_QUERY_STRING, entityName);
 		respositoryHelper.batchUpdate(ql, models);
+		
+	}
+
+	public List<M> findAll(String ql, Pageable pageable,
+			Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<M> findAll(String ql, Sort sort, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Long count(String ql, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void saveAll(List<M> records) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateAll(List<M> records) {
+		// TODO Auto-generated method stub
 		
 	}
 	

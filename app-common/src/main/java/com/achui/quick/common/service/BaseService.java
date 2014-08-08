@@ -2,12 +2,15 @@ package com.achui.quick.common.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.achui.quick.common.entity.AbstractEntity;
 import com.achui.quick.common.repository.BaseRepository;
 
+@Transactional
 public abstract class BaseService<M extends AbstractEntity, ID extends Serializable> {
 	
 	protected BaseRepository<M, ID> baseRepository;
@@ -51,4 +54,5 @@ public abstract class BaseService<M extends AbstractEntity, ID extends Serializa
 	public boolean exists(ID id){
 		return baseRepository.exists(id);
 	}
+	
 }
