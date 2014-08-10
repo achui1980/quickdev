@@ -1,5 +1,6 @@
 package com.achui.quick.common.repository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,8 +47,18 @@ public class CURDUserRespositoryTest extends BaseIT{
 	}
 	
 	@Test 
+	@Ignore
 	public void testDeleteUser(){
 		userRespository.delete(Arrays.asList(new Integer(2),new Integer(3),new Integer(1)));
+	}
+	
+	@Test
+	public void testSaveOrUpdate(){
+		User user = new User();
+		user.setPassword("11111");
+		List<User> list = new ArrayList<User>();
+		list.add(user);
+		userRespository.saveorupdateAll(list);
 	}
 	
 }

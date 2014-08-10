@@ -85,30 +85,23 @@ implements BaseRepository<M, ID>{
 
 	public List<M> findAll(String ql, Pageable pageable,
 			Map<String, Object> paramMap) {
-		// TODO Auto-generated method stub
-		return null;
+		return respositoryHelper.findAll(ql, pageable, paramMap);
 	}
 
 	public List<M> findAll(String ql, Sort sort, Map<String, Object> paramMap) {
 		// TODO Auto-generated method stub
-		return null;
+		return respositoryHelper.findAll(ql, sort, paramMap);
 	}
 
 	public Long count(String ql, Map<String, Object> paramMap) {
 		// TODO Auto-generated method stub
-		return null;
+		return respositoryHelper.count(ql, paramMap);
 	}
 
-	public void saveAll(List<M> records) {
-		// TODO Auto-generated method stub
-		
+	public void saveorupdateAll(List<M> records) {
+		if(CollectionUtils.isEmpty(records)){
+			return;
+		}
+		super.save(records);
 	}
-
-	public void updateAll(List<M> records) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-
 }

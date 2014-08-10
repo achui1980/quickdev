@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.achui.quick.common.entity.AbstractEntity;
@@ -53,6 +54,14 @@ public abstract class BaseService<M extends AbstractEntity, ID extends Serializa
 	
 	public boolean exists(ID id){
 		return baseRepository.exists(id);
+	}
+	
+	public List<M> findAll(String ql, Pageable pageable, Map<String, Object> paramsMap){
+		return baseRepository.findAll(ql, pageable, paramsMap);
+	}
+	
+	public List<M> findAll(List ids){
+		return baseRepository.findAll(ids);
 	}
 	
 }

@@ -24,8 +24,6 @@ public interface BaseRepository<M,ID extends Serializable> extends JpaRepository
 	
 	public Long count(String ql,Map<String, Object> paramMap);
 	
-	public void saveAll(List<M> records);
-	
-	public void updateAll(List<M> records);
+	public void saveorupdateAll(List<M> records);
 
 }
