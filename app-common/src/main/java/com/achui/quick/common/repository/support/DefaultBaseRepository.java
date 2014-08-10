@@ -98,10 +98,11 @@ implements BaseRepository<M, ID>{
 		return respositoryHelper.count(ql, paramMap);
 	}
 
-	public void saveorupdateAll(List<M> records) {
+	public List<M> saveorupdateAll(List<M> records) {
 		if(CollectionUtils.isEmpty(records)){
-			return;
+			return null;
 		}
-		super.save(records);
+		return super.save(records);
 	}
+
 }
