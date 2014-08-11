@@ -5,10 +5,10 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
+  	<module>app-common</module>
   	<module>app-util</module>
   	<module>app-dao</module>
   	<module>app-web</module>
-  	<module>app-common</module>
   </modules>
   	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
