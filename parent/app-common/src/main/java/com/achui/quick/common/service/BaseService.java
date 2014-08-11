@@ -44,10 +44,9 @@ public abstract class BaseService<M extends AbstractEntity, ID extends Serializa
 		baseRepository.delete(id);
 	}
 	
-	public void delete(List<ID> ids){
+	public void delte(List<ID> ids){
 		baseRepository.delete(ids);
 	}
-	
 	
 	public M findOne(ID id){
 		return baseRepository.findOne(id);
@@ -63,10 +62,6 @@ public abstract class BaseService<M extends AbstractEntity, ID extends Serializa
 	
 	public List<M> findAll(List ids){
 		return baseRepository.findAll(ids);
-	}
-	
-	public List<M> saveorupdateAll(List<M> records){
-		return baseRepository.saveorupdateAll(records);
 	}
 	
 }
