@@ -6,4 +6,11 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>app-common</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.achui</groupId>
+  		<artifactId>app-util</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  </dependencies>
 </project>
