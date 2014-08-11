@@ -14,6 +14,6 @@ public class UserServiceTest extends BaseIT{
 	
 	@Test
 	public void testDeltetUser(){
-		userService.delte(Arrays.asList(new Integer(4)));
+		userService.delete(Arrays.asList(new Integer(4)));
 	}
 }
