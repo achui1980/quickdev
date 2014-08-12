@@ -1,0 +1,4 @@
+<script src="${pageContext.request.contextPath}/static/vendor/webix/webix_debug.js" type="text/javascript"></script>  
+<script>
+var $ctx = '${pageContext.request.contextPath}';
+</script>
