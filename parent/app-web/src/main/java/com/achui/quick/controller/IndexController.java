@@ -20,10 +20,6 @@ public class IndexController {
 	@RequestMapping(value="/index")
 	public String index(HttpServletRequest request, Model model){
 		
-		User user = new User();
-		user.setUsername("achui1");
-		user.setPassword("123456");
-		userService.saveUser(user);
 		model.addAttribute("name","achui");
 		
 		return "index";
