@@ -1,7 +1,9 @@
 package com.achui.quick.domain;
 
-import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import com.achui.quick.common.entity.BaseEntity;
 
 
 /**
@@ -9,13 +11,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="user")
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+public class User extends BaseEntity<Integer>  {
 
 	private String password;
 
@@ -24,13 +20,9 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+    public User(Integer id) {
+        setId(id);
+    }
 
 	public String getPassword() {
 		return this.password;

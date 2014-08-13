@@ -129,4 +129,5 @@
         <property name="arguments" ref="entityManagerFactory"/>
     </bean>
 
+	<import resource="spring-config-shiro.xml"/>
 </beans>

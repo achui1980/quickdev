@@ -12,7 +12,6 @@ import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.User;
 import com.achui.quick.repository.UserRepository;
 
-@DependsOn("userRespository")
 @Service("userService")
 @Transactional
 public class UserService extends BaseService<User, Integer>{
