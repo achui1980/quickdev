@@ -13,7 +13,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.realm.AuthenticatingRealm;
 
-import com.achui.quick.domain.User;
+import com.achui.quick.domain.SysUser;
 import com.achui.quick.service.UserService;
 
 
@@ -29,7 +29,7 @@ public class UserRealm extends AuthenticatingRealm{
 		if(StringUtils.isEmpty(userName)){
 			throw new AccountException("user name is null");
 		}
-		User user = userService.findByUsername(userName);
+		SysUser user = userService.findByUsername(userName);
 		if(user == null){
 			throw new UnknownAccountException("user not found");
 		}

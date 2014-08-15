@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.achui.quick.common.repository.BaseRepository;
 import com.achui.quick.common.service.BaseService;
-import com.achui.quick.domain.User;
+import com.achui.quick.domain.SysUser;
 import com.achui.quick.repository.UserRepository;
 
 @Service("userService")
 @Transactional
-public class UserService extends BaseService<User, Integer>{
+public class UserService extends BaseService<SysUser, Integer>{
 
 //	@Autowired
 //    @Qualifier("userRespository")
@@ -28,7 +28,7 @@ public class UserService extends BaseService<User, Integer>{
         return (UserRepository) baseRepository;
     }
 	
-	public User findByUsername(String userName){
+	public SysUser findByUsername(String userName){
 		return this.getUserRepository().findByUsername(userName);
 	}
 }

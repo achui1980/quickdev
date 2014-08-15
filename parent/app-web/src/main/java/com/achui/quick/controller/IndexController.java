@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.achui.quick.domain.User;
 import com.achui.quick.service.UserService;
 
 @Controller
