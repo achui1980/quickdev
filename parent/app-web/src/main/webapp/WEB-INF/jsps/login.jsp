@@ -3,7 +3,7 @@
 <html>
 <body>
 <h2>Hello World!</h2>
-<form action="/index" method="post">
+<form action="login" method="post">
 	<input name="username" />
 	<input name="password" />
 	<input type="submit" value="submit" />
