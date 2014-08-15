@@ -24,16 +24,16 @@ public class IndexController {
 		
 		model.addAttribute("name","achui");
 		
-		return "index";
+		return "login";
 	}
 	
 	@RequestMapping(value="/login")
 	public String login(HttpServletRequest request, Model model){
 		
-		String userName = request.getParameter("userName");
+		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
 		SecurityUtils.getSubject().login(new UsernamePasswordToken(userName,password));
-		model.addAttribute("name","login");
-		return "login";
+		model.addAttribute("name","index");
+		return "index";
 	}
 }

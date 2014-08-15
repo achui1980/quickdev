@@ -1,7 +1,8 @@
 package com.achui.quick.domain;
 
-import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Entity;
+
+import com.achui.quick.common.entity.BaseEntity;
 
 
 /**
@@ -9,9 +10,8 @@ import javax.persistence.*;
  * 
  */
 @Entity
-public class User extends com.achui.quick.common.entity.BaseEntity<Integer> {
+public class User extends BaseEntity<Integer> {
 	private static final long serialVersionUID = 1L;
-	private int id;
 	private String password;
 	private String username;
 
