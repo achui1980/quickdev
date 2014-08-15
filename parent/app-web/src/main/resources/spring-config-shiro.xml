@@ -11,7 +11,7 @@
         <!-- override these for application-specific URLs if you like:-->
         <property name="loginUrl" value="${shiro.login.url}"/>
         <property name="unauthorizedUrl" value="${shiro.unauthorizedUrl}"/>
-        <property name="successUrl" value="${shiro.successUrl}"></property>
+        <property name="successUrl" value="${shiro.success.url}"></property>
         <!-- The 'filters' property is not necessary since any declared javax.servlet.Filter bean  -->
         <!-- defined will be automatically acquired and available via its beanName in chain        -->
         <!-- definitions, but you can perform instance overrides or name aliases here if you like: -->
@@ -24,7 +24,7 @@
     </bean>
 
 	<!-- realm -->
-    <bean id="userRealm" class="org.apache.shiro.realm.UserRealm"></bean>
+    <bean id="userRealm" class="com.achui.quick.shiro.realm.UserRealm"></bean>
     
      <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
