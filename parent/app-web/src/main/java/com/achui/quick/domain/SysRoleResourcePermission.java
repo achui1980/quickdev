@@ -16,15 +16,11 @@ public class SysRoleResourcePermission extends com.achui.quick.common.entity.Bas
 	@Column(name="permission_ids", length=200)
 	private String permissionIds;
 
-	//bi-directional many-to-one association to SysResource
-	@ManyToOne
-	@JoinColumn(name="resource_id")
-	private SysResource sysResource;
+	@Column(name="resource_id")
+	private Integer resourceId;
 
-	//bi-directional many-to-one association to SysRole
-	@ManyToOne
-	@JoinColumn(name="role_id")
-	private SysRole sysRole;
+	@Column(name="role_id")
+	private Integer roleId;
 
 	public SysRoleResourcePermission() {
 	}
@@ -37,20 +33,19 @@ public class SysRoleResourcePermission extends com.achui.quick.common.entity.Bas
 		this.permissionIds = permissionIds;
 	}
 
-	public SysResource getSysResource() {
-		return this.sysResource;
+	public Integer getResourceId() {
+		return resourceId;
 	}
 
-	public void setSysResource(SysResource sysResource) {
-		this.sysResource = sysResource;
+	public void setResourceId(Integer resourceId) {
+		this.resourceId = resourceId;
 	}
 
-	public SysRole getSysRole() {
-		return this.sysRole;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setSysRole(SysRole sysRole) {
-		this.sysRole = sysRole;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
-
 }

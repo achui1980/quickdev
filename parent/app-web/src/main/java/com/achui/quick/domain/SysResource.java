@@ -32,22 +32,8 @@ public class SysResource extends com.achui.quick.common.entity.BaseEntity<Intege
 	@Column(length=100)
 	private String url;
 
-	//bi-directional many-to-one association to SysPermission
-	@OneToMany(mappedBy="sysResource")
-	private List<SysPermission> sysPermissions;
-
-	//bi-directional many-to-one association to SysResource
-	@ManyToOne
-	@JoinColumn(name="parent_id")
-	private SysResource sysResource;
-
-	//bi-directional many-to-one association to SysResource
-	@OneToMany(mappedBy="sysResource")
-	private List<SysResource> sysResources;
-
-	//bi-directional many-to-one association to SysRoleResourcePermission
-	@OneToMany(mappedBy="sysResource")
-	private List<SysRoleResourcePermission> sysRoleResourcePermissions;
+	@Column(name="parent_id")
+	private Integer parentId;
 
 	public SysResource() {
 	}
@@ -100,36 +86,12 @@ public class SysResource extends com.achui.quick.common.entity.BaseEntity<Intege
 		this.url = url;
 	}
 
-	public List<SysPermission> getSysPermissions() {
-		return this.sysPermissions;
+	public Integer getParentId() {
+		return parentId;
 	}
 
-	public void setSysPermissions(List<SysPermission> sysPermissions) {
-		this.sysPermissions = sysPermissions;
-	}
-
-	public SysResource getSysResource() {
-		return this.sysResource;
-	}
-
-	public void setSysResource(SysResource sysResource) {
-		this.sysResource = sysResource;
-	}
-
-	public List<SysResource> getSysResources() {
-		return this.sysResources;
-	}
-
-	public void setSysResources(List<SysResource> sysResources) {
-		this.sysResources = sysResources;
-	}
-
-	public List<SysRoleResourcePermission> getSysRoleResourcePermissions() {
-		return this.sysRoleResourcePermissions;
-	}
-
-	public void setSysRoleResourcePermissions(List<SysRoleResourcePermission> sysRoleResourcePermissions) {
-		this.sysRoleResourcePermissions = sysRoleResourcePermissions;
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
 
 }

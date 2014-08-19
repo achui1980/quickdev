@@ -1,7 +1,10 @@
 package com.achui.quick.domain;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -13,33 +16,29 @@ import javax.persistence.*;
 public class SysUserRole extends com.achui.quick.common.entity.BaseEntity<Integer> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	//bi-directional many-to-one association to SysRole
-	@ManyToOne
-	@JoinColumn(name="role_id", nullable=false)
-	private SysRole sysRole;
+	@Column(name="role_id", nullable=false)
+	private Integer roleId;
 
-	//bi-directional many-to-one association to SysUser
-	@ManyToOne
-	@JoinColumn(name="user_id", nullable=false)
-	private SysUser sysUser;
+	@Column(name="user_id", nullable=false)
+	private Integer userId;
 
 	public SysUserRole() {
 	}
 
-	public SysRole getSysRole() {
-		return this.sysRole;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setSysRole(SysRole sysRole) {
-		this.sysRole = sysRole;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
-	public SysUser getSysUser() {
-		return this.sysUser;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setSysUser(SysUser sysUser) {
-		this.sysUser = sysUser;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 }

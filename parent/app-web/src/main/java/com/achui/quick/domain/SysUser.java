@@ -1,8 +1,10 @@
 package com.achui.quick.domain;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -19,10 +21,6 @@ public class SysUser extends com.achui.quick.common.entity.BaseEntity<Integer> i
 
 	@Column(nullable=false, length=20)
 	private String username;
-
-	//bi-directional many-to-one association to SysUserRole
-	@OneToMany(mappedBy="sysUser")
-	private List<SysUserRole> sysUserRoles;
 
 	public SysUser() {
 	}
@@ -42,13 +40,4 @@ public class SysUser extends com.achui.quick.common.entity.BaseEntity<Integer> i
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	public List<SysUserRole> getSysUserRoles() {
-		return this.sysUserRoles;
-	}
-
-	public void setSysUserRoles(List<SysUserRole> sysUserRoles) {
-		this.sysUserRoles = sysUserRoles;
-	}
-
 }

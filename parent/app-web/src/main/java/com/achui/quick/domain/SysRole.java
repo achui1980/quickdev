@@ -1,8 +1,10 @@
 package com.achui.quick.domain;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -22,14 +24,6 @@ public class SysRole extends com.achui.quick.common.entity.BaseEntity<Integer> i
 
 	@Column(nullable=false, length=20)
 	private String role;
-
-	//bi-directional many-to-one association to SysRoleResourcePermission
-	@OneToMany(mappedBy="sysRole")
-	private List<SysRoleResourcePermission> sysRoleResourcePermissions;
-
-	//bi-directional many-to-one association to SysUserRole
-	@OneToMany(mappedBy="sysRole")
-	private List<SysUserRole> sysUserRoles;
 
 	public SysRole() {
 	}
@@ -57,21 +51,4 @@ public class SysRole extends com.achui.quick.common.entity.BaseEntity<Integer> i
 	public void setRole(String role) {
 		this.role = role;
 	}
-
-	public List<SysRoleResourcePermission> getSysRoleResourcePermissions() {
-		return this.sysRoleResourcePermissions;
-	}
-
-	public void setSysRoleResourcePermissions(List<SysRoleResourcePermission> sysRoleResourcePermissions) {
-		this.sysRoleResourcePermissions = sysRoleResourcePermissions;
-	}
-
-	public List<SysUserRole> getSysUserRoles() {
-		return this.sysUserRoles;
-	}
-
-	public void setSysUserRoles(List<SysUserRole> sysUserRoles) {
-		this.sysUserRoles = sysUserRoles;
-	}
-
 }

@@ -25,10 +25,8 @@ public class SysPermission extends com.achui.quick.common.entity.BaseEntity<Inte
 	@Column(length=10)
 	private String type;
 
-	//bi-directional many-to-one association to SysResource
-	@ManyToOne
-	@JoinColumn(name="sys_resource_id", nullable=false)
-	private SysResource sysResource;
+	@Column(name="sys_resource_id", nullable=false)
+	private Integer sysResourceId;
 
 	public SysPermission() {
 	}
@@ -66,12 +64,13 @@ public class SysPermission extends com.achui.quick.common.entity.BaseEntity<Inte
 		this.type = type;
 	}
 
-	public SysResource getSysResource() {
-		return this.sysResource;
+
+	public Integer getSysResourceId() {
+		return sysResourceId;
 	}
 
-	public void setSysResource(SysResource sysResource) {
-		this.sysResource = sysResource;
-	}
 
+	public void setSysResourceId(Integer sysResourceId) {
+		this.sysResourceId = sysResourceId;
+	}
 }

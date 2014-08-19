@@ -11,18 +11,12 @@ import com.achui.quick.common.repository.BaseRepository;
 import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.repository.UserRepository;
+import com.achui.quick.repository.UserRoleRepository;
 
 @Service("userService")
 @Transactional
 public class UserService extends BaseService<SysUser, Integer>{
 
-//	@Autowired
-//    @Qualifier("userRespository")
-//    @Override
-//    public void setBaseRepository(BaseRepository<User, Integer> baseRepository) {
-//        super.setBaseRepository(baseRepository);
-//    }
-	
 	@Autowired
     private UserRepository getUserRepository() {
         return (UserRepository) baseRepository;
