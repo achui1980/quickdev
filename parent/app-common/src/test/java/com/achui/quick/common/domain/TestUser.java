@@ -1,6 +1,7 @@
-package com.achui.quick.domain;
+package com.achui.quick.common.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.achui.quick.common.entity.BaseEntity;
 
@@ -10,12 +11,15 @@ import com.achui.quick.common.entity.BaseEntity;
  * 
  */
 @Entity
-public class User extends BaseEntity<Integer> {
+@Table(name="user")
+public class TestUser extends BaseEntity<Integer> {
 	private static final long serialVersionUID = 1L;
+
 	private String password;
+
 	private String username;
 
-	public User() {
+	public TestUser() {
 	}
 
 	public String getPassword() {
@@ -25,7 +29,6 @@ public class User extends BaseEntity<Integer> {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	public String getUsername() {
 		return this.username;

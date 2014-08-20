@@ -14,7 +14,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.achui.quick.common.domain.User;
+import com.achui.quick.common.domain.TestUser;
 import com.achui.quick.common.test.BaseIT;
 
 public class CURDUserRespositoryTest extends BaseIT{
@@ -25,11 +25,11 @@ public class CURDUserRespositoryTest extends BaseIT{
 	@Autowired
 	private UserRespository userRespository;
 	
-	private User user;
+	private TestUser user;
 	
 	@Before
 	public void setUp(){
-		user = new User();
+		user = new TestUser();
 		user.setPassword("1234");
 		user.setUsername(RandomStringUtils.randomAlphabetic(6));
 	}
@@ -42,7 +42,7 @@ public class CURDUserRespositoryTest extends BaseIT{
 	@Test 
 	@Ignore
 	public void testFindUser(){
-		List<User> users = userRespository.findByUsername("achui4");
+		List<TestUser> users = userRespository.findByUsername("achui4");
 		org.springframework.util.Assert.notNull(users);
 		junit.framework.Assert.assertEquals(1,users.size());
 	}
@@ -55,9 +55,9 @@ public class CURDUserRespositoryTest extends BaseIT{
 	
 	@Test
 	public void testSaveOrUpdate(){
-		User user = new User();
+		TestUser user = new TestUser();
 		user.setPassword("11111");
-		List<User> list = new ArrayList<User>();
+		List<TestUser> list = new ArrayList<TestUser>();
 		list.add(user);
 		userRespository.saveorupdateAll(list);
 	}

@@ -1,50 +1,47 @@
 package com.achui.quick.service;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
+import javax.annotation.Resource;
+
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.list.TransformedList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.achui.quick.domain.SysRole;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.domain.SysUserRole;
 
+@Service("authService")
 public class AuthService {
 
-	@Autowired
+	@Resource(name="userService")
 	private UserService userService;
 	
-	@Autowired
+	@Resource(name="permissionService")
 	private PermissionService permissionService;
 	
-	@Autowired
+	@Resource(name="roleResourcePermissionService")
 	private RoleResourcePermissionService roleResourcePermissionService;
 	
-	@Autowired
+	@Resource(name="userRoleService")
 	private UserRoleService userRoleService;
 	
 	@SuppressWarnings("unchecked")
 	public List<String> getRoleString(SysUser user){
 		List<SysUserRole> userRoles = userRoleService.findByUserId(user.getId());
-		List<Integer> ids = ListUtils.transformedList(userRoles, new Transformer() {
-			@Override
-			public Object transform(Object userRole) {
-				// TODO Auto-generated method stub
-				return ((SysUserRole)userRole).getRoleId();
-			}
-		});
+		List<Integer> ids = new ArrayList<>();
+		for(SysUserRole sysUserRole : userRoles){
+			ids.add(sysUserRole.getId());
+		}
 		List<SysRole> sysRoles = userRoleService.getRoles(ids); 
-		List<String> roles = ListUtils.transformedList(sysRoles, new Transformer() {
-			@Override
-			public Object transform(Object userRole) {
-				SysRole role = (SysRole)userRole;
-				return role.getRole();
-			}
-		});
-		
+		List<String> roles = new ArrayList<>();
+		for(SysRole role : sysRoles){
+			roles.add(role.getRole());
+		}
 		return roles;
 	}
 	

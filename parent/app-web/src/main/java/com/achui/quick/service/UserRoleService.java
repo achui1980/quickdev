@@ -10,7 +10,7 @@ import com.achui.quick.domain.SysRole;
 import com.achui.quick.domain.SysUserRole;
 import com.achui.quick.repository.UserRoleRepository;
 
-@Service
+@Service("userRoleService")
 public class UserRoleService extends BaseService<SysUserRole, Integer>{
 
 	@Autowired

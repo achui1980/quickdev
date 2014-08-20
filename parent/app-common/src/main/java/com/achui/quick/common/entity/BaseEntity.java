@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class BaseEntity<ID extends Serializable> extends AbstractEntity<ID>{
+public abstract class BaseEntity<ID extends Serializable> extends AbstractEntity<ID>{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

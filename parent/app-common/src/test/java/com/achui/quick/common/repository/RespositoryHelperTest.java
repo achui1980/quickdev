@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 
-import com.achui.quick.common.domain.User;
+import com.achui.quick.common.domain.TestUser;
 import com.achui.quick.common.test.BaseIT;
 
 public class RespositoryHelperTest extends BaseIT {
@@ -26,7 +26,7 @@ public class RespositoryHelperTest extends BaseIT {
 	    @Before
 	    public void setUp() {
 	    	RespositoryHelper.setEntityManagerFactory(entityManagerFactory);
-	        repositoryHelper = new RespositoryHelper(User.class);
+	        repositoryHelper = new RespositoryHelper(TestUser.class);
 	    }
 	    @Test
 	    public void testGetEntityManager() {
@@ -53,7 +53,7 @@ public class RespositoryHelperTest extends BaseIT {
 	    @Test
 	    public void testFindAll(){
 	    	String ql = "select obj from User obj";
-	    	List<User> users = repositoryHelper.findAll(ql, new PageRequest(0, 3), (Map)null);
+	    	List<TestUser> users = repositoryHelper.findAll(ql, new PageRequest(0, 3), (Map)null);
 	    	System.out.println(users.size());
 	    }
 	    
