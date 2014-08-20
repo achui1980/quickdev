@@ -12,6 +12,4 @@ import com.achui.quick.domain.SysRoleResourcePermission;
 @Transactional
 public class RoleResourcePermissionService extends BaseService<SysRoleResourcePermission, Integer>{
 	
-	@Autowired
-	private 
 }
