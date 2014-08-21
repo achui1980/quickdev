@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.achui.quick.common.entity.AbstractEntity;
@@ -81,4 +82,19 @@ public abstract class BaseService<M extends AbstractEntity, ID extends Serializa
 		return baseRepository.saveorupdateAll(records);
 	}
 	
+	public int batchUpdate(String ql, Object... params){
+		return baseRepository.batchUpdate(ql, params);
+	}
+	
+	public int batchUpdate(String ql, Map<String, Object> paramsMap){
+		return baseRepository.batchUpdate(ql, paramsMap);
+	}
+	
+	public M findOne(String ql,Sort sort,Object...params ){
+		return baseRepository.findOne(ql, sort, params);
+	}
+	
+	public M findOne(String ql,Sort sort,Map<String, Object> paramsMap){
+		return baseRepository.findOne(ql, sort, paramsMap);
+	}
 }
