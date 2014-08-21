@@ -24,7 +24,7 @@ public class SysResource extends com.achui.quick.common.entity.BaseEntity<Intege
 	@Column(length=30)
 	private String module;
 
-	private int order;
+	private Integer order;
 
 	@Column(name="parent_ids", length=50)
 	private String parentIds;
@@ -66,7 +66,7 @@ public class SysResource extends com.achui.quick.common.entity.BaseEntity<Intege
 		return this.order;
 	}
 
-	public void setOrder(int order) {
+	public void setOrder(Integer order) {
 		this.order = order;
 	}
 
