@@ -10,10 +10,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.achui.quick.common.service.BaseService;
+import com.achui.quick.domain.SysResource;
 import com.achui.quick.domain.SysRole;
 import com.achui.quick.domain.SysRoleResourcePermission;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.domain.SysUserRole;
+import com.achui.quick.repository.ResourceRepository;
 import com.achui.quick.repository.UserRoleRepository;
 
 @Service("userRoleService")
@@ -21,6 +23,9 @@ public class UserRoleService extends BaseService<SysUserRole, Integer>{
 
 	@Autowired
 	private UserRoleRepository userRoleRepository;
+	
+	@Autowired 
+	private ResourceService resourceService;
 	
 	
 	public List<SysUserRole> findByUserId(Integer userId){
@@ -43,8 +48,12 @@ public class UserRoleService extends BaseService<SysUserRole, Integer>{
 		for(SysRole role : roleList){
 			paramsMap.clear();
 			paramsMap.put("roleId", role.getId());
-			String ql = " from SysRoleResourcePermission obj where obj.roleId = 1";
-			List resourcePermissions = userRoleRepository.fi.findAll(ql,(Sort)null, null);
+			String ql = " from SysRoleResourcePermission obj where obj.roleId = :roleId";
+			List<SysRoleResourcePermission> resourcePermissions = userRoleRepository.findAll(ql,(Sort)null, paramsMap);
+			for(SysRoleResourcePermission rrp : resourcePermissions){
+				SysResource resource = resourceService.findOne(rrp.getResourceId());
+				System.out.println("");
+			}
 			System.out.println("");
 		}
 		return null;
