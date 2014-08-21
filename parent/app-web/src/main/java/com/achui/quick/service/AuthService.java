@@ -18,8 +18,8 @@ import com.achui.quick.domain.SysUserRole;
 @Service("authService")
 public class AuthService {
 
-	@Resource(name="userService")
-	private UserService userService;
+	@Resource(name="myuserService")
+	private MyUserService userService;
 	
 	@Resource(name="permissionService")
 	private PermissionService permissionService;
@@ -43,7 +43,13 @@ public class AuthService {
 			roles.add(role.getRole());
 		}
 		return roles;
+		
 	}
+	
+	public List<String> getPermissions(SysUser user){
+		return userRoleService.getPermissions(user);
+	}
+		
 	
 	
 }

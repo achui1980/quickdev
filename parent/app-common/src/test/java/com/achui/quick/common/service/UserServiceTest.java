@@ -10,7 +10,7 @@ import com.achui.quick.common.test.BaseIT;
 public class UserServiceTest extends BaseIT{
 
 	@Autowired
-	private UserService userService;
+	private TestUserService userService;
 	
 	@Test
 	public void testDeltetUser(){

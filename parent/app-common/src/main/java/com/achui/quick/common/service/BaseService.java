@@ -61,6 +61,18 @@ public abstract class BaseService<M extends AbstractEntity, ID extends Serializa
 		return baseRepository.findAll(ql, pageable, paramsMap);
 	}
 	
+	public List<M> findAll(String ql, Pageable pageable, Object...params){
+		return baseRepository.findAll(ql, pageable, params);
+	}
+	
+	public Long count(String ql,Map<String, Object> paramMap){
+		return baseRepository.count(ql, paramMap);
+	}
+	
+	public Long count(String ql,Object... params){
+		return baseRepository.count(ql, params);
+	}
+	
 	public List<M> findAll(List ids){
 		return baseRepository.findAll(ids);
 	}

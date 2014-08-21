@@ -14,13 +14,13 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.realm.AuthenticatingRealm;
 
 import com.achui.quick.domain.SysUser;
-import com.achui.quick.service.UserService;
+import com.achui.quick.service.MyUserService;
 
 
 public class UserRealm extends AuthenticatingRealm{
 
 	@Resource(name="userService")
-	private UserService userService;
+	private MyUserService userService;
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {

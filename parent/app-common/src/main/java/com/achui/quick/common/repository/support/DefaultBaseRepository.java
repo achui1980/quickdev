@@ -105,4 +105,39 @@ implements BaseRepository<M, ID>{
 		return super.save(records);
 	}
 
+	public List findAll(String ql, Pageable pageable, Object... params) {
+		// TODO Auto-generated method stub
+		return respositoryHelper.findAll(ql, pageable, params);
+	}
+
+	public List findAll(String ql, Sort sort, Object... params) {
+		// TODO Auto-generated method stub
+		return respositoryHelper.findAll(ql, sort, params);
+	}
+
+	public Long count(String ql, Object... params) {
+		// TODO Auto-generated method stub
+		return respositoryHelper.count(ql, params);
+	}
+
+	public int batchUpdate(String ql, Object... params) {
+		// TODO Auto-generated method stub
+		return respositoryHelper.batchUpdate(ql, params);
+	}
+
+	public int batchUpdate(String ql, Map<String, Object> paramsMap) {
+		// TODO Auto-generated method stub
+		return respositoryHelper.batchUpdate(ql, paramsMap);
+	}
+
+	public <M> M findOne(String ql, Sort sort, Object... params) {
+		// TODO Auto-generated method stub
+		return respositoryHelper.findOne(ql, sort, params);
+	}
+
+	public <M> M findOne(String ql, Sort sort, Map<String, Object> paramsMap) {
+		// TODO Auto-generated method stub
+		return respositoryHelper.findOne(ql, sort, paramsMap);
+	}
+
 }

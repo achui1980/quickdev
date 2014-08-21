@@ -18,12 +18,26 @@ public interface BaseRepository<M,ID extends Serializable> extends JpaRepository
 	 */
 	public void delete(List<ID> ids);
 	
-	public List<M> findAll(String ql,Pageable pageable,Map<String, Object> paramMap);
+	public List findAll(String ql,Pageable pageable,Map<String, Object> paramMap);
 	
-	public List<M> findAll(String ql,Sort sort,Map<String, Object> paramMap);
+	public List findAll(String ql,Sort sort,Map<String, Object> paramMap);
 	
 	public Long count(String ql,Map<String, Object> paramMap);
 	
+	public List findAll(String ql,Pageable pageable,Object... params);
+	
+	public List findAll(String ql,Sort sort,Object... params);
+	
+	public <M> M findOne(String ql,Sort sort,Object...params );
+	
+	public <M> M findOne(String ql,Sort sort,Map<String, Object> paramsMap);
+	
+	public Long count(String ql,Object... params);
+	
 	public List<M> saveorupdateAll(List<M> records);
+	
+	public int batchUpdate(String ql, Object... params);
+	
+	public int batchUpdate(String ql, Map<String, Object> paramsMap);
 
 }

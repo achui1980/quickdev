@@ -10,7 +10,7 @@ import com.achui.quick.common.domain.TestUser;
 import com.achui.quick.common.repository.BaseRepository;
 import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.SysPermission;
-import com.achui.quick.repository.UserRepository;
+import com.achui.quick.repository.MyUserRepository;
 
 @Service
 @Transactional

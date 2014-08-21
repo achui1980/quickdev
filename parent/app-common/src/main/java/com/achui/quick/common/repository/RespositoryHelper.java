@@ -96,6 +96,20 @@ public class RespositoryHelper {
     }
     
     /**
+     * 不分页查询
+     * @param ql
+     * @param sort null 表示不排序
+     * @param paramsMap
+     * @return
+     */
+    public <M> List<M> findAll(String ql,Sort sort,Object...params){
+    	String prepareOrder = prepareOrder(sort);
+    	Query query = getEntityManager().createQuery(ql + prepareOrder);
+    	setParameters(query, params);
+    	return query.getResultList();
+    }
+    
+    /**
      * 查询记录数
      * @param ql
      * @param paramsMap
@@ -123,6 +137,22 @@ public class RespositoryHelper {
     public <M> M findOne(String ql,Sort sort,Map<String, Object> paramsMap){
     	Pageable pageable = new PageRequest(0, 1, sort);
     	List<M> list = findAll(ql, pageable, paramsMap);
+    	if(list.size() >0){
+    		return list.get(0);
+    	}
+    	return null;
+    }
+    
+    /**
+     * 查询一条记录
+     * @param ql
+     * @param sort null 为不排序
+     * @param paramsMap
+     * @return
+     */
+    public <M> M findOne(String ql,Sort sort,Object...params ){
+    	Pageable pageable = new PageRequest(0, 1, sort);
+    	List<M> list = findAll(ql, pageable, params);
     	if(list.size() >0){
     		return list.get(0);
     	}

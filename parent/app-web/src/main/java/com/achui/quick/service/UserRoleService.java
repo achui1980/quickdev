@@ -1,15 +1,17 @@
 package com.achui.quick.service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.achui.quick.common.service.BaseService;
-import com.achui.quick.domain.SysPermission;
 import com.achui.quick.domain.SysRole;
+import com.achui.quick.domain.SysRoleResourcePermission;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.domain.SysUserRole;
 import com.achui.quick.repository.UserRoleRepository;
@@ -19,6 +21,7 @@ public class UserRoleService extends BaseService<SysUserRole, Integer>{
 
 	@Autowired
 	private UserRoleRepository userRoleRepository;
+	
 	
 	public List<SysUserRole> findByUserId(Integer userId){
 		return userRoleRepository.findByUserId(userId);
@@ -36,9 +39,13 @@ public class UserRoleService extends BaseService<SysUserRole, Integer>{
 		 * 格式：sys:user:create 或者 sys:*:create
 		 */
 		List<SysRole> roleList = this.getRoles(Arrays.asList(user.getId()));
+		Map<String, Object> paramsMap = new HashMap<>();
 		for(SysRole role : roleList){
-			String ql = " from SysRoleResoucePermission obj where obj.roleId = :roleId";
-			userRoleRepository.findAll(ql, (Sort)null, null);
+			paramsMap.clear();
+			paramsMap.put("roleId", role.getId());
+			String ql = " from SysRoleResourcePermission obj where obj.roleId = 1";
+			List resourcePermissions = userRoleRepository.fi.findAll(ql,(Sort)null, null);
+			System.out.println("");
 		}
 		return null;
 	}

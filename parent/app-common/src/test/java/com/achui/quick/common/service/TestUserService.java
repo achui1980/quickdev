@@ -7,7 +7,7 @@ import com.achui.quick.common.domain.TestUser;
 import com.achui.quick.common.repository.BaseRepository;
 
 //@Service
-public class UserService extends BaseService<TestUser, Integer>{
+public class TestUserService extends BaseService<TestUser, Integer>{
 
 	@Autowired
     @Qualifier("userRespository")
