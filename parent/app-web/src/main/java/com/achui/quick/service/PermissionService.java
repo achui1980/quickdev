@@ -12,7 +12,7 @@ import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.SysPermission;
 import com.achui.quick.repository.MyUserRepository;
 
-@Service
+@Service("permissionService")
 @Transactional
 public class PermissionService extends BaseService<SysPermission,Integer>{
 }
