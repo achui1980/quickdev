@@ -24,7 +24,7 @@ import com.achui.quick.service.MyUserService;
 
 public class UserRealm extends AuthorizingRealm{
 
-	@Resource(name="userService")
+	@Resource(name="myuserService")
 	private MyUserService userService;
 	
 	@Resource(name="authService")
@@ -41,7 +41,7 @@ public class UserRealm extends AuthorizingRealm{
 		if(user == null){
 			throw new UnknownAccountException("user not found");
 		}
-		return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
+		return new SimpleAuthenticationInfo(userName, user.getPassword(), getName());
 	}
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
