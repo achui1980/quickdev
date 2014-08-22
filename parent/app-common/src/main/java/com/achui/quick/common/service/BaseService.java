@@ -97,4 +97,8 @@ public abstract class BaseService<M extends AbstractEntity, ID extends Serializa
 	public M findOne(String ql,Sort sort,Map<String, Object> paramsMap){
 		return baseRepository.findOne(ql, sort, paramsMap);
 	}
+	
+	public List<M> findAll(){
+		return baseRepository.findAll();
+	}
 }
