@@ -33,12 +33,12 @@ public class AuthService {
 	@SuppressWarnings("unchecked")
 	public List<String> getRoleString(SysUser user){
 		List<SysUserRole> userRoles = userRoleService.findByUserId(user.getId());
-		List<Integer> ids = new ArrayList<>();
+		List<Integer> ids = new ArrayList<Integer>();
 		for(SysUserRole sysUserRole : userRoles){
 			ids.add(sysUserRole.getId());
 		}
 		List<SysRole> sysRoles = userRoleService.getRoles(ids); 
-		List<String> roles = new ArrayList<>();
+		List<String> roles = new ArrayList<String>();
 		for(SysRole role : sysRoles){
 			roles.add(role.getRole());
 		}

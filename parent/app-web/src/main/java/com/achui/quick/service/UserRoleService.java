@@ -51,8 +51,8 @@ public class UserRoleService extends BaseService<SysUserRole, Integer>{
 		 * 格式：sys:user:create 或者 sys:*:create
 		 */
 		List<SysRole> roleList = this.getRoles(Arrays.asList(user.getId()));
-		List<String> permissions = new ArrayList<>();
-		Map<String, Object> paramsMap = new HashMap<>();
+		List<String> permissions = new ArrayList<String>();
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		for(SysRole role : roleList){
 			paramsMap.clear();
 			paramsMap.put("roleId", role.getId());
@@ -112,7 +112,7 @@ public class UserRoleService extends BaseService<SysUserRole, Integer>{
 
 	private List<Integer> transformToList(String str){
 		String[] strs = str.split(",");
-		List<Integer> ids = new ArrayList<>();
+		List<Integer> ids = new ArrayList<Integer>();
 		for(String s : strs){
 			ids.add(Integer.valueOf(s));
 		}
