@@ -251,5 +251,16 @@
             <artifactId>shiro-spring</artifactId>
             <version>${shiro.version}</version>
         </dependency>
+               <!-- json转换器 -->
+	    <dependency>
+		  <groupId>org.codehaus.jackson</groupId>
+		  <artifactId>jackson-core-lgpl</artifactId>
+		  <version>1.9.8</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.codehaus.jackson</groupId>
+		  <artifactId>com.springsource.org.codehaus.jackson.mapper</artifactId>
+		  <version>1.4.3</version>
+		</dependency>
     </dependencies>
 </project>

@@ -47,5 +47,23 @@
         <property name="suffix" value=".jsp"/>
     </bean>
     
+    <!-- 转换器配置:只有配置好了转换器才能进行类与JSON和XML的转换 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <!-- String 转换器 -->
+                <ref bean="stringHttpMessageConverter"/>
+                <!-- JSON 转换器 -->
+                <ref bean="jsonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
+
+    <bean id="jsonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+
     <import resource="spring-mvc-shiro.xml"/>
 </beans>
