@@ -4,9 +4,11 @@
 <html>
 <body>
 <h2>Hello World! Hello ${name}</h2>
-<div id="listA"></div>
+<div id="listA" style="height:200px"></div>
 <div id="page">
 	<div id="next"></div>
+</div>
+<div id="page2">
 </div>
 <script type="text/javascript">
 /* webix.locale.pager = {
@@ -24,10 +26,11 @@ webix.ready(function(){
 		   {id:"password",header:"password", width:200},
 		],
 		select:"cell",
-		datafetch:10,
-		loadahead:2,
 		pager:{
-			//template:"{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()}",
+			template:function(data,common){
+				alert('ddd');
+				return common.prev() + " " + common.next();
+			},
 			container:"page",
 			size:1,
 			group:2
@@ -41,12 +44,15 @@ webix.ready(function(){
 		click:next
 	});
 	
-	function next(){
-		console.log(grid.getPage());
-		grid.clearAll();
-		grid.loadNext(2,grid.getPage());
-		grid.setPage(grid.getPage()+1);
-	}
+		grid.getPager().clone({
+			template:function(data, common){
+				alert('asdfadsf');
+				return common.prev()+" ac3 " +common.next();
+			},
+			container:"page2",
+			size:10,
+			group:5
+		});
 });
 // webix.ui({
 // 	container:"listA",
