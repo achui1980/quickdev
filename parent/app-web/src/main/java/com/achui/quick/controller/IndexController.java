@@ -1,10 +1,16 @@
 package com.achui.quick.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,5 +55,16 @@ public class IndexController {
 		user.setUsername("achui");
 		user.setPassword("123456");
 		return user;
+	}
+	
+	@RequestMapping(value="/user/list" , method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<SysUser> getUserList(HttpServletRequest request){
+		String count = request.getParameter("count");
+		String start = request.getParameter("start");
+		if(StringUtils.isEmpty(count)) count = "1";
+		if(StringUtils.isEmpty(start)) start = "0";
+		Pageable page = new PageRequest(Integer.valueOf(start), Integer.valueOf(count));
+		return userService.findAll("select obj from SysUser obj ", page, (Map<String, Object>)null);
 	}
 }
