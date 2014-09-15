@@ -18,6 +18,7 @@
         <log4j.version>1.2.12</log4j.version>
         <spring.version>4.0.0.RELEASE</spring.version>
         <shiro.version>1.2.3</shiro.version>
+        <jersey.version>2.12</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -251,7 +252,7 @@
             <artifactId>shiro-spring</artifactId>
             <version>${shiro.version}</version>
         </dependency>
-               <!-- json转换器 -->
+        <!-- json转换器 -->
 	    <dependency>
 		  <groupId>org.codehaus.jackson</groupId>
 		  <artifactId>jackson-core-lgpl</artifactId>
@@ -261,6 +262,31 @@
 		  <groupId>org.codehaus.jackson</groupId>
 		  <artifactId>com.springsource.org.codehaus.jackson.mapper</artifactId>
 		  <version>1.4.3</version>
+		</dependency>
+		<!-- jersey(rest framework) -->
+		<dependency>
+		    <groupId>org.glassfish.jersey.containers</groupId>
+		    <artifactId>jersey-container-servlet</artifactId>
+		    <version>${jersey.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		<!-- if you are using Jersey client specific features without the server side 
+		<dependency>
+		    <groupId>org.glassfish.jersey.core</groupId>
+		    <artifactId>jersey-client</artifactId>
+		    <version>${jersey.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		-->
+		<dependency>
+		    <groupId>org.glassfish.jersey.ext</groupId>
+		    <artifactId>jersey-spring3</artifactId>
+		    <version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.glassfish.jersey.media</groupId>
+		    <artifactId>jersey-media-json-jackson</artifactId>
+		    <version>${jersey.version}</version>
 		</dependency>
     </dependencies>
 </project>

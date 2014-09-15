@@ -25,15 +25,13 @@ webix.ready(function(){
 		   {id:"username",header:"username", width:200},
 		   {id:"password",header:"password", width:200},
 		],
+		datafetch:2,
+		//loadahead:3,
 		select:"cell",
 		pager:{
-			template:function(data,common){
-				alert('ddd');
-				return common.prev() + " " + common.next();
-			},
 			container:"page",
-			size:1,
-			group:2
+			size:2,
+			group:5
 		},
 		url:"user/list"
 	});
@@ -43,16 +41,6 @@ webix.ready(function(){
 		value:'next',
 		click:next
 	});
-	
-		grid.getPager().clone({
-			template:function(data, common){
-				alert('asdfadsf');
-				return common.prev()+" ac3 " +common.next();
-			},
-			container:"page2",
-			size:10,
-			group:5
-		});
 });
 // webix.ui({
 // 	container:"listA",

@@ -9624,7 +9624,9 @@ webix.protoUI({
 	_id:"webix_p_id",
 	template_setter:webix.template,
 	type:{
-		template:function(a,b){ return a.template.call(this, a,b); },
+		template:function(a,b){ 
+			return a.template.call(this, a,b); 
+		},
 		//list of page numbers
 		pages:function(obj){
 			var html="";

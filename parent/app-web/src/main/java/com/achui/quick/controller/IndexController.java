@@ -1,5 +1,10 @@
 package com.achui.quick.controller;
 
+import java.io.BufferedInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.achui.quick.domain.Json;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.service.MyUserService;
 
@@ -59,12 +65,24 @@ public class IndexController {
 	
 	@RequestMapping(value="/user/list" , method=RequestMethod.GET,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<SysUser> getUserList(HttpServletRequest request){
+	public @ResponseBody Json getUserList(HttpServletRequest request){
+		Json json = new Json();
 		String count = request.getParameter("count");
 		String start = request.getParameter("start");
-		if(StringUtils.isEmpty(count)) count = "1";
+		if(StringUtils.isEmpty(count)){ 
+			count = "1";
+			json.setTotal_count(5);
+		}
+		
 		if(StringUtils.isEmpty(start)) start = "0";
 		Pageable page = new PageRequest(Integer.valueOf(start), Integer.valueOf(count));
-		return userService.findAll("select obj from SysUser obj ", page, (Map<String, Object>)null);
+		
+		List userList = userService.findAll("select obj from SysUser obj ", page, (Map<String, Object>)null);
+		json.setData(userList);
+		json.setPos(Integer.valueOf(start));
+		json.setTotal_count(20);
+		return json;
+		
 	}
+	
 }
