@@ -87,6 +87,17 @@ webix.protoUI({
 		this._grid = new webix.ui.datatable(gridCfg);
 	},
 	onDefaultAdd:function(grid){
+		var obj = {
+				"id":100,
+			    "username":"achui",
+			    "password":"1000",
+			    "new":false
+			}
+		webix.ajax().header({
+			'Content-Type':'application/json'
+		}).put($ctx+'/rest/hello/user/op/1', JSON.stringify(obj), function(){
+			console.log('asdfasdfasdf');
+		});
 		webix.message({
 			text:'TODO:Add event,'+grid,
 			expire:1000
@@ -156,15 +167,15 @@ webix.proxy.jsonrest = {
 		if (mode == "update"){
 			webix.ajax().header({
 				'Content-Type':'application/json'
-			}).put(url + data.id, data, callback);
+			}).put(url + data.id, JSON.stringify(data), callback);
 		} else if (mode == "delete") {
 			webix.ajax().header({
 				'Content-Type':'application/json'
-			}).del(url + data.id, data, callback);
+			}).del(url + data.id, JSON.stringify(data), callback);
 		} else {
 			webix.ajax().header({
 				'Content-Type':'application/json'
-			}).post(url, data, callback);
+			}).post(url, JSON.stringify(data), callback);
 		}
 	}
 }

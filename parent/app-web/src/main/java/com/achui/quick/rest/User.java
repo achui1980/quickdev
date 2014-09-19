@@ -1,18 +1,30 @@
 package com.achui.quick.rest;
 
+
+
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@XmlRootElement
-@XmlSeeAlso(Integer.class)
-public class User extends BaseUser<Integer> implements Serializable{
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+/**
+ * The persistent class for the sys_user database table.
+ * 
+ */
+@Entity
+@Table(name="sys_user")
+public class User extends com.achui.quick.common.entity.BaseEntity<Integer> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Column(nullable=false, length=50)
 	private String password;
 
+	@Column(nullable=false, length=20)
+	@JsonIgnore
 	private String username;
 
 	public User() {
@@ -33,7 +45,5 @@ public class User extends BaseUser<Integer> implements Serializable{
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	
 	
 }

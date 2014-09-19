@@ -18,9 +18,11 @@ var form1 = {
 	]
 };
 
-webix.callEvent("onBeforeAjax", function(mode, url, data, request){
+webix.attachEvent("onBeforeAjax", function(mode, url, data, request){
 	console.log("url:"+url);
-    request.setRequestHeader("Content-type","application/json");
+	if(url.indexOf('op') > -1){
+    	//request.setRequestHeader("Content-type","application/json");
+	}
 });
 webix.ui({
 	view:'gridex',

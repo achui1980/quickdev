@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * The persistent class for the sys_user database table.
@@ -17,8 +19,9 @@ public class SysUser extends com.achui.quick.common.entity.BaseEntity<Integer> i
 	private static final long serialVersionUID = 1L;
 
 	@Column(nullable=false, length=50)
+	@JsonIgnore
 	private String password;
-
+	
 	@Column(nullable=false, length=20)
 	private String username;
 

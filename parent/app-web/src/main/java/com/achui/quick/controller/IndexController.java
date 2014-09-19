@@ -1,10 +1,5 @@
 package com.achui.quick.controller;
 
-import java.io.BufferedInputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.achui.quick.domain.Json;
 import com.achui.quick.domain.SysUser;
+import com.achui.quick.rest.User;
 import com.achui.quick.service.MyUserService;
 
 @Controller
@@ -55,8 +51,8 @@ public class IndexController {
 	
 	@RequestMapping(value="/user/{id}" , method=RequestMethod.GET,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody SysUser getUser(@PathVariable("id") Integer id){
-		SysUser user = new SysUser();
+	public @ResponseBody User getUser(@PathVariable("id") Integer id){
+		User user = new User();
 		user.setId(id);
 		user.setUsername("achui");
 		user.setPassword("123456");
@@ -70,19 +66,27 @@ public class IndexController {
 		String count = request.getParameter("count");
 		String start = request.getParameter("start");
 		if(StringUtils.isEmpty(count)){ 
-			count = "1";
-			json.setTotal_count(5);
+			count = "100";
+			json.setTotal_count(100);
 		}
 		
 		if(StringUtils.isEmpty(start)) start = "0";
 		Pageable page = new PageRequest(Integer.valueOf(start), Integer.valueOf(count));
 		
-		List userList = userService.findAll("select obj from SysUser obj ", page, (Map<String, Object>)null);
+		List userList = userService.findAll("select obj from AchuiUser obj ", page, (Map<String, Object>)null);
 		json.setData(userList);
 		json.setPos(Integer.valueOf(start));
-		json.setTotal_count(20);
+		json.setTotal_count(100);
 		return json;
 		
 	}
-	
+	@RequestMapping(value="/custom")
+	public String custom(HttpServletRequest request, Model model){
+		
+//		String userName = request.getParameter("username");
+//		String password = request.getParameter("password");
+//		SecurityUtils.getSubject().login(new UsernamePasswordToken(userName,password));
+//		model.addAttribute("name","index");
+		return "custom";
+	}
 }
