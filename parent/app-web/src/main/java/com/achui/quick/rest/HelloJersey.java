@@ -1,6 +1,5 @@
 package com.achui.quick.rest;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -14,16 +13,15 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.service.MyUserService;
+import com.achui.quick.service.PermissionService;
+import com.achui.quick.spring.BasicSpringContext;
+import com.achui.quick.spring.ISpringContext;
 
 @Path("hello")
 public class HelloJersey {
@@ -36,7 +34,9 @@ public class HelloJersey {
 	@GET
 	@Produces("text/plain")
 	public String hello(){
-		return "Hello World,achui,"+userService;
+		ISpringContext context = BasicSpringContext.getSpringContext();
+		BaseService service  = context.lookup("myuserService");
+		return "Hello World,achui,"+userService+"	baseservice:"+service.findAll().size();
 	}
 	
 	@GET
