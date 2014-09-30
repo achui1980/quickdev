@@ -6,7 +6,6 @@ webix.protoUI({
 		tbarControls:[]
 	},
 	$init:function(config){
-		//this.attachEvent('onBeforeAjax',this._beforeAjax);
 		this.$ready.push(this._init_gridex);
 	},
 	_init_gridex:function(){
@@ -42,7 +41,8 @@ webix.protoUI({
 		var buttons = [
 			{view:'button',label:'Add',eventname:'Add',width:this.config.tbarBtnWidth},
 			{view:'button',label:'Mod',eventname:'Mod',width:this.config.tbarBtnWidth},
-			{view:'button',label:'Del',eventname:'Del',width:this.config.tbarBtnWidth}
+			{view:'button',label:'Del',eventname:'Del',width:this.config.tbarBtnWidth},
+			{view:'button',label:'Save',eventname:'Save',width:this.config.tbarBtnWidth},
 		]
 		if(this.config.useDefaultBtn){
 			buttons = buttons.concat(this.config.tbarControls);
@@ -85,19 +85,22 @@ webix.protoUI({
 		}
 		webix.extend(gridCfg,this.config.grid);
 		this._grid = new webix.ui.datatable(gridCfg);
+		this._grid.attachEvent('onBeforeLoad',function(){
+			 this.showOverlay("Loading...");
+		});
+		this._grid.attachEvent('onAfterLoad',function(){
+			this.hideOverlay();
+		});
+		
 	},
 	onDefaultAdd:function(grid){
 		var obj = {
-				"id":100,
+				"id":null,
 			    "username":"achui",
 			    "password":"1000",
 			    "new":false
-			}
-		webix.ajax().header({
-			'Content-Type':'application/json'
-		}).put($ctx+'/rest/hello/user/op/1', JSON.stringify(obj), function(){
-			console.log('asdfasdfasdf');
-		});
+			};
+		this._grid.add(obj);
 		webix.message({
 			text:'TODO:Add event,'+grid,
 			expire:1000
@@ -126,16 +129,24 @@ webix.protoUI({
 			});
 			return;
 		}
+		grid.remove(grid.getSelectedId(true));
 		webix.message({
 			text:'TODO:Del event,'+grid,
 			expire:1000
 		});
 	},
+	onDefaultSave:function(){
+		var dp = webix.dp(this._grid);
+		dp.send();
+		this._grid.clearAll();
+		this._grid.load(this._grid.config.url);
+		//this._grid.refresh();
+	},
 	getSelectedRows:function(grid){
 		var ids = webix.toArray(grid.getSelectedId(true));
 		var rows = webix.toArray();
 		ids.each(function(obj){
-			rows.insertAt(grid.getItem(obj.id))
+			rows.insertAt(grid.getItem(obj.id));
 		});
 		return rows;
 	},
@@ -145,10 +156,6 @@ webix.protoUI({
 	getTbar:function(){
 		return this._tbar;
 	}
-//	_beforeAjax:function(mode, url, data, request){
-//		console.log('url:'+url);
-//	    request.setRequestHeader("Content-type","application/json");
-//	}
 },webix.ui.view,webix.EventSystem);
 
 webix.proxy.jsonrest = {
@@ -178,4 +185,13 @@ webix.proxy.jsonrest = {
 			}).post(url, JSON.stringify(data), callback);
 		}
 	}
-}
+};
+webix.proxy.querypost = {
+	$proxy:true,
+	load:function(view, callback){
+		var param = view.params || {};
+		webix.ajax().bind(view).header({
+			'Content-Type':'application/json'
+		}).post(this.source, JSON.stringify(param), callback);
+	}
+};

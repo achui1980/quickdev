@@ -45,10 +45,14 @@ webix.ui({
 		],
 		editable:true,
 		select:"row",
-		//editaction:'click',
+		multiselect:true,
+		editaction:'dblclick',
 		autowidth:false,
-		url:$ctx+"/rest/hello/user",
-		save:"jsonrest->"+$ctx+"/rest/hello/user/op",
+		url:"querypost->"+$ctx+"/rest/hello/getuser",
+		save:{
+			url:"jsonrest->"+$ctx+"/rest/hello/user/op",
+			autoupdate:false
+		},
 		on:{
 			'onItemClick':function(){
 				console.log('dddd');

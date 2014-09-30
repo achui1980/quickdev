@@ -2,7 +2,9 @@ package com.achui.quick.rest;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -14,29 +16,43 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.service.MyUserService;
-import com.achui.quick.service.PermissionService;
 import com.achui.quick.spring.BasicSpringContext;
 import com.achui.quick.spring.ISpringContext;
+import com.achui.quick.spring.ServiceHelper;
 
 @Path("hello")
 public class HelloJersey {
 	@Context
 	UriInfo uriInfo;
+	@Context
+	private HttpServletRequest servletRequest;
 	@Autowired
 	private MyUserService userService;
-	
 	
 	@GET
 	@Produces("text/plain")
 	public String hello(){
-		ISpringContext context = BasicSpringContext.getSpringContext();
-		BaseService service  = context.lookup("myuserService");
+		BaseService service  = ServiceHelper.getBaseService("myuserService");
 		return "Hello World,achui,"+userService+"	baseservice:"+service.findAll().size();
+	}
+	
+	@GET
+	@Path("/test")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response test(){
+		System.out.println("---------------"+servletRequest.getParameter("grant_type"));
+		SysUser user = new SysUser();
+		user.setUsername("test");
+		return Response.created(uriInfo.getAbsolutePath())
+				.entity(user).type(MediaType.APPLICATION_JSON)
+				.build();
+		
 	}
 	
 	@GET
@@ -44,6 +60,7 @@ public class HelloJersey {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getUser(Object obj){
+		
 		List<SysUser> userList = userService.findAll();
 //		User user = new User();
 //		//user.setId(100);
@@ -57,9 +74,33 @@ public class HelloJersey {
 	}
 	
 	@POST
-	@Path("/user")
+	@Path("/getuser")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response getUsers(Object obj){
+		
+		List<SysUser> userList = userService.findAll();
+//		User user = new User();
+//		//user.setId(100);
+//		user.setPassword("123");
+//		user.setUsername("achui");
+		return Response.created(uriInfo.getAbsolutePath())
+				.entity(userList).type(MediaType.APPLICATION_JSON)
+				.build();
+		//return user;
+		
+	}
+	
+	@POST
+	@Path("/user/op")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getUserPost(SysUser obj){
+		ISpringContext context = BasicSpringContext.getSpringContext();
+		BaseService service  = context.lookup("myuserService");
+		obj.setId(null);
+		obj.setPassword(RandomStringUtils.randomNumeric(6));
+		service.save(obj);
 		System.out.println(obj);
 		List<SysUser> userList = userService.findAll();
 //		User user = new User();
@@ -88,6 +129,20 @@ public class HelloJersey {
 //		user.setUsername("achui");
 		return Response.created(uriInfo.getAbsolutePath())
 				.entity(userList).type(MediaType.APPLICATION_JSON)
+				.build();
+		//return user;
+		
+	}
+	
+	@DELETE
+	@Path("/user/op/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response getUserDelete(@PathParam("id") Integer id){
+		BaseService service = ServiceHelper.getBaseService("myuserService");
+		service.delete(id);
+		return Response.created(uriInfo.getAbsolutePath())
+				.entity(id).type(MediaType.APPLICATION_JSON)
 				.build();
 		//return user;
 		
