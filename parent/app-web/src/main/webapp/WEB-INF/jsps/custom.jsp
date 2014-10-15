@@ -26,6 +26,7 @@ webix.attachEvent("onBeforeAjax", function(mode, url, data, request){
 });
 webix.ui({
 	view:'gridex',
+	domain:'SysUser',
 	grid:{
 		/*
 		columns:[

@@ -17,10 +17,15 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.SysUser;
+import com.achui.quick.query.Parameter;
+import com.achui.quick.query.Query;
+import com.achui.quick.query.QueryHelper;
 import com.achui.quick.service.MyUserService;
 import com.achui.quick.spring.BasicSpringContext;
 import com.achui.quick.spring.ISpringContext;
@@ -28,6 +33,7 @@ import com.achui.quick.spring.ServiceHelper;
 
 @Path("hello")
 public class HelloJersey {
+	protected final Logger log = LoggerFactory.getLogger(getClass());
 	@Context
 	UriInfo uriInfo;
 	@Context
@@ -38,6 +44,7 @@ public class HelloJersey {
 	@GET
 	@Produces("text/plain")
 	public String hello(){
+		log.info("hello");
 		BaseService service  = ServiceHelper.getBaseService("myuserService");
 		return "Hello World,achui,"+userService+"	baseservice:"+service.findAll().size();
 	}
@@ -77,9 +84,9 @@ public class HelloJersey {
 	@Path("/getuser")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response getUsers(Object obj){
-		
-		List<SysUser> userList = userService.findAll();
+	public Response getUsers(Query query){
+		List<SysUser> userList = //userService.findAll();
+				userService.findAll(QueryHelper.buildHQL(query), null, QueryHelper.buildQueryParams(query));
 //		User user = new User();
 //		//user.setId(100);
 //		user.setPassword("123");

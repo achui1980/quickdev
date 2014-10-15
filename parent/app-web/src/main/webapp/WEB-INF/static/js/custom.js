@@ -10,17 +10,37 @@ webix.protoUI({
 	},
 	_init_gridex:function(){
 		webix.extend(this.config,this.defaults);
+		var layout = {view:'layout',type:'line',
+			rows:[]
+		};
+		var self =  this;
+		var _layout = webix.ui(layout);
 		this._initPager();
 		this._initGrid();
 		this._initTbar(this._grid);
-		var layout = {view:'layout',type:'line',
-			rows:[]
-		}
-		var _layout = webix.ui(layout);
+		this._searchbar = new webix.ui.searchbar({
+			grid:self.config.id,
+			domain:self.config.domain,
+			cols:[
+			   {view:'text',name:'username',op:"like",enableSearch:true,placeholder:'username'},
+			],
+			elementsConfig:{
+				width:130
+			}
+		});
+		this._grid.params = this._searchbar.getSearchObj();
 		_layout.addView(this._tbar);
+		_layout.addView(this._searchbar);
 		_layout.addView(this._grid);
 		_layout.addView(this._pager);
 		_layout.adjust();
+		var dp = webix.dp(this._grid);
+		dp.attachEvent('onAfterSync', function(id, text, data,loader){ 
+			if(self._searchbar)
+				self._searchbar.search();
+			else
+				self.reload();
+		});
 	},
 	_initTbar:function(grid){
 	
@@ -43,7 +63,7 @@ webix.protoUI({
 			{view:'button',label:'Mod',eventname:'Mod',width:this.config.tbarBtnWidth},
 			{view:'button',label:'Del',eventname:'Del',width:this.config.tbarBtnWidth},
 			{view:'button',label:'Save',eventname:'Save',width:this.config.tbarBtnWidth},
-		]
+		];
 		if(this.config.useDefaultBtn){
 			buttons = buttons.concat(this.config.tbarControls);
 		}else{
@@ -64,13 +84,13 @@ webix.protoUI({
 				if(self.callEvent('onBefore'+eventName,[grid])){
 					self.callEvent('on'+eventName,[grid]);
 				}
-			})
+			});
 			tbar.addView(button);
 		});
 		delete buttons;
 	},
 	_initPager:function(){
-		var pagerCfg = {master:false, size: 15, group: 10}
+		var pagerCfg = {master:false, size: 15, group: 10};
 		if(this.config.pager){
 			webix.extend(pageCfg,this.config.pager);
 		}
@@ -79,7 +99,7 @@ webix.protoUI({
 	_initGrid:function(){
 		var gridCfg = {
 			pager:this._pager.config.id
-		}
+		};
 		if(!this.config.grid){
 			webix.assert_error("missing grid attribute");
 		}
@@ -136,11 +156,9 @@ webix.protoUI({
 		});
 	},
 	onDefaultSave:function(){
-		var dp = webix.dp(this._grid);
-		dp.send();
-		this._grid.clearAll();
-		this._grid.load(this._grid.config.url);
-		//this._grid.refresh();
+		this._searchbar.search();
+		//var dp = webix.dp(this._grid);
+		//dp.send();
 	},
 	getSelectedRows:function(grid){
 		var ids = webix.toArray(grid.getSelectedId(true));
@@ -155,6 +173,10 @@ webix.protoUI({
 	},
 	getTbar:function(){
 		return this._tbar;
+	},
+	reload:function(){
+		this._grid.clearAll();
+		this._grid.load(this._grid.config.url);
 	}
 },webix.ui.view,webix.EventSystem);
 
@@ -195,3 +217,39 @@ webix.proxy.querypost = {
 		}).post(this.source, JSON.stringify(param), callback);
 	}
 };
+
+webix.protoUI({
+	name:'searchbar',
+	$init:function(config){
+		this.$ready.push(this._init_search);
+	},
+	_init_search:function(){
+		this.addView( {view:"icon", icon:"search" ,width:30});
+	},
+	getSearchObj:function(){
+		var self = this;
+		var searchObj = {
+			domain:"SysUser",
+			params:[]
+		};
+		webix.toArray(this.getChildViews()).each(function(view){
+			var enableSearch = view.config.enableSearch;
+			if(enableSearch){
+				var name = view.config.name;
+				var param = {};
+				param["value"] = view.getValue();
+				param["name"] = name;
+				param["op"] = view.config.op;
+				searchObj.params.push(param);
+			}
+		});
+		return searchObj;
+	},
+	search:function(){
+		var gridEx = webix.$$(this.config.grid);
+		gridEx.getGrid().params = this.getSearchObj();
+		console.log(this.getSearchObj());
+		gridEx.reload();
+	}
+},webix.ui.toolbar);
+
