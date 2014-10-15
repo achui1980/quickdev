@@ -12,6 +12,9 @@ public class Query {
 	
 	@JsonIgnore
 	private String hql;
+	
+	@JsonIgnore
+	private String hqlCount;
 
 	public String getDomain() {
 		return domain;
@@ -36,4 +39,13 @@ public class Query {
 	public void setHql(String hql) {
 		this.hql = hql;
 	}
+
+	public String getHqlCount() {
+		return hqlCount;
+	}
+
+	public void setHqlCount(String hqlCount) {
+		this.hqlCount = hqlCount;
+	}
+	
 }

@@ -16,8 +16,6 @@ webix.protoUI({
 		var self =  this;
 		var _layout = webix.ui(layout);
 		this._initPager();
-		this._initGrid();
-		this._initTbar(this._grid);
 		this._searchbar = new webix.ui.searchbar({
 			grid:self.config.id,
 			domain:self.config.domain,
@@ -28,7 +26,8 @@ webix.protoUI({
 				width:130
 			}
 		});
-		this._grid.params = this._searchbar.getSearchObj();
+		this._initGrid();
+		this._initTbar(this._grid);
 		_layout.addView(this._tbar);
 		_layout.addView(this._searchbar);
 		_layout.addView(this._grid);
@@ -90,7 +89,7 @@ webix.protoUI({
 		delete buttons;
 	},
 	_initPager:function(){
-		var pagerCfg = {master:false, size: 15, group: 10};
+		var pagerCfg = {master:false, size: 2, group: 10};
 		if(this.config.pager){
 			webix.extend(pageCfg,this.config.pager);
 		}
@@ -98,7 +97,10 @@ webix.protoUI({
 	},
 	_initGrid:function(){
 		var gridCfg = {
-			pager:this._pager.config.id
+			pager:this._pager.config.id,
+			params:this._searchbar.getSearchObj(),
+			loadahead:4,
+			datafetch:2
 		};
 		if(!this.config.grid){
 			webix.assert_error("missing grid attribute");
@@ -157,8 +159,8 @@ webix.protoUI({
 	},
 	onDefaultSave:function(){
 		this._searchbar.search();
-		//var dp = webix.dp(this._grid);
-		//dp.send();
+		var dp = webix.dp(this._grid);
+		dp.send();
 	},
 	getSelectedRows:function(grid){
 		var ids = webix.toArray(grid.getSelectedId(true));
@@ -211,7 +213,14 @@ webix.proxy.jsonrest = {
 webix.proxy.querypost = {
 	$proxy:true,
 	load:function(view, callback){
-		var param = view.params || {};
+		var param = null;
+		if(view.config.params){
+			param = view.config.params;
+		}
+		if(view.params){
+			param = view.params;
+		}
+		param = param || {};
 		webix.ajax().bind(view).header({
 			'Content-Type':'application/json'
 		}).post(this.source, JSON.stringify(param), callback);

@@ -1,6 +1,7 @@
 package com.achui.quick.rest;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -20,8 +21,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 
 import com.achui.quick.common.service.BaseService;
+import com.achui.quick.domain.Json;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.query.Parameter;
 import com.achui.quick.query.Query;
@@ -85,14 +88,22 @@ public class HelloJersey {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getUsers(Query query){
+		String ql = QueryHelper.buildCountHQL(query);
+		Map<String, Object> params = QueryHelper.buildQueryParams(query);
+		PageRequest page = new PageRequest(0, 2);
 		List<SysUser> userList = //userService.findAll();
-				userService.findAll(QueryHelper.buildHQL(query), null, QueryHelper.buildQueryParams(query));
-//		User user = new User();
+				userService.findAll(QueryHelper.buildHQL(query), page, params);
+		Long count = userService.count(QueryHelper.buildCountHQL(query), params);
+		//		User user = new User();
 //		//user.setId(100);
 //		user.setPassword("123");
 //		user.setUsername("achui");
+		Json json = new Json();
+		json.setData(userList);
+		json.setTotal_count(count.intValue());
+		//json.setPos(0);
 		return Response.created(uriInfo.getAbsolutePath())
-				.entity(userList).type(MediaType.APPLICATION_JSON)
+				.entity(json).type(MediaType.APPLICATION_JSON)
 				.build();
 		//return user;
 		
