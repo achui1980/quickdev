@@ -60,8 +60,7 @@ webix.ui({
 			}
 		}
 	}
-});
-		
+});		
 </script>
 </body>
 </html>

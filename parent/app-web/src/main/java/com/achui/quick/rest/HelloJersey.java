@@ -88,20 +88,15 @@ public class HelloJersey {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getUsers(Query query){
-		String ql = QueryHelper.buildCountHQL(query);
 		Map<String, Object> params = QueryHelper.buildQueryParams(query);
-		PageRequest page = new PageRequest(0, 2);
+		PageRequest page = new PageRequest(query.getPage(),query.getPageCount());
 		List<SysUser> userList = //userService.findAll();
 				userService.findAll(QueryHelper.buildHQL(query), page, params);
 		Long count = userService.count(QueryHelper.buildCountHQL(query), params);
-		//		User user = new User();
-//		//user.setId(100);
-//		user.setPassword("123");
-//		user.setUsername("achui");
 		Json json = new Json();
 		json.setData(userList);
 		json.setTotal_count(count.intValue());
-		//json.setPos(0);
+		json.setPos(page.getOffset());
 		return Response.created(uriInfo.getAbsolutePath())
 				.entity(json).type(MediaType.APPLICATION_JSON)
 				.build();

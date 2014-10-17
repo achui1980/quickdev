@@ -10,6 +10,10 @@ public class Query {
 	
 	private List<Parameter> params;
 	
+	private int page;
+	
+	private int pageCount;
+	
 	@JsonIgnore
 	private String hql;
 	
@@ -46,6 +50,22 @@ public class Query {
 
 	public void setHqlCount(String hqlCount) {
 		this.hqlCount = hqlCount;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
 	}
 	
 }

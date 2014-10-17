@@ -212,7 +212,7 @@ webix.proxy.jsonrest = {
 };
 webix.proxy.querypost = {
 	$proxy:true,
-	load:function(view, callback){
+	load:function(view, callback,details){
 		var param = null;
 		if(view.config.params){
 			param = view.config.params;
@@ -221,6 +221,13 @@ webix.proxy.querypost = {
 			param = view.params;
 		}
 		param = param || {};
+		if(!param["page"]){
+			param["page"] = 0;
+		}
+		if(details){
+			param["page"] = view.getPage();
+		}
+		param["pageCount"] = view.getPager().config.size;
 		webix.ajax().bind(view).header({
 			'Content-Type':'application/json'
 		}).post(this.source, JSON.stringify(param), callback);
@@ -233,7 +240,13 @@ webix.protoUI({
 		this.$ready.push(this._init_search);
 	},
 	_init_search:function(){
-		this.addView( {view:"icon", icon:"search" ,width:30});
+		var self = this;
+		var iconCfg = {view:"icon", icon:"search" ,width:30};
+		var icon = new webix.ui.icon(iconCfg);
+		icon.attachEvent('onItemClick',function(){
+			self.search();
+		});
+		this.addView(icon);
 	},
 	getSearchObj:function(){
 		var self = this;
@@ -261,4 +274,14 @@ webix.protoUI({
 		gridEx.reload();
 	}
 },webix.ui.toolbar);
+
+webix.UIManager.addHotKey("enter", function(view){
+  if(view.getParentView().name == 'searchbar'){
+	  var searchBar = view.getParentView();
+	  searchBar.search();
+	  console.log('heloop:%o',view);
+  }else{
+	  console.log('no:%o',view);
+  }
+}, "text");
 
