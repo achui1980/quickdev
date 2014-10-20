@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class SysUser extends com.achui.quick.common.entity.BaseEntity<Integer> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Column(nullable=false, length=50)
+	@Column(nullable=true, length=50)
 	@JsonIgnore
 	private String password;
 	

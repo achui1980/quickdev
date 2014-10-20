@@ -17,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +25,13 @@ import org.springframework.data.domain.PageRequest;
 import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.Json;
 import com.achui.quick.domain.SysUser;
-import com.achui.quick.query.Parameter;
 import com.achui.quick.query.Query;
 import com.achui.quick.query.QueryHelper;
 import com.achui.quick.service.MyUserService;
 import com.achui.quick.spring.BasicSpringContext;
 import com.achui.quick.spring.ISpringContext;
 import com.achui.quick.spring.ServiceHelper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("hello")
 public class HelloJersey {
@@ -108,12 +107,12 @@ public class HelloJersey {
 	@Path("/user/op")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response getUserPost(SysUser obj){
+	public Response getUserPost(Map obj){
 		ISpringContext context = BasicSpringContext.getSpringContext();
 		BaseService service  = context.lookup("myuserService");
-		obj.setId(null);
-		obj.setPassword(RandomStringUtils.randomNumeric(6));
-		service.save(obj);
+		//obj.setId(null);
+		//obj.setPassword(RandomStringUtils.randomNumeric(6));
+		//service.save(tttObject);
 		System.out.println(obj);
 		List<SysUser> userList = userService.findAll();
 //		User user = new User();

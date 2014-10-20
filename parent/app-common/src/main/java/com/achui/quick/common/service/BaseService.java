@@ -13,7 +13,7 @@ import com.achui.quick.common.entity.AbstractEntity;
 import com.achui.quick.common.repository.BaseRepository;
 
 @Transactional
-public abstract class BaseService<M extends AbstractEntity, ID extends Serializable> {
+public abstract class BaseService<M, ID extends Serializable> {
 	
 	protected BaseRepository<M, ID> baseRepository;
 

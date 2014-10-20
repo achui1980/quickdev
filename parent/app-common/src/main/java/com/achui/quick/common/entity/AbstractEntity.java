@@ -4,12 +4,15 @@ import java.io.Serializable;
 
 import org.springframework.data.domain.Persistable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public abstract class AbstractEntity<ID extends Serializable> implements Persistable<ID> {
 	
 	public abstract ID getId();
 	
 	public abstract void setId(final ID id);
 	
+	@JsonIgnore
 	public boolean isNew(){
 		return null == getId();
 	}

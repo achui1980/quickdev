@@ -49,9 +49,9 @@ webix.ui({
 		multiselect:true,
 		editaction:'dblclick',
 		autowidth:false,
-		url:"querypost->"+$ctx+"/rest/hello/getuser",
+		url:"querypost->"+$ctx+"/rest/service/myuserService/list",
 		save:{
-			url:"jsonrest->"+$ctx+"/rest/hello/user/op",
+			url:"jsonrest->"+$ctx+"/rest/service/myuserService/op/SysUser",
 			autoupdate:false
 		},
 		on:{
