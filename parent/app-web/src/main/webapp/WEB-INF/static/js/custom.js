@@ -3,7 +3,13 @@ webix.protoUI({
 	defaults:{
 		tbarBtnWidth:75,
 		useDefaultBtn:true,
-		tbarControls:[]
+		tbarControls:[],
+		//if grid are in edit mode,this value should be set false
+		usePreLoad:false,
+		/*
+		 * grid:edit in grid, form:edit in popup window.
+		 * */
+		editMode:"grid"
 	},
 	$init:function(config){
 		this.$ready.push(this._init_gridex);
@@ -89,7 +95,7 @@ webix.protoUI({
 		delete buttons;
 	},
 	_initPager:function(){
-		var pagerCfg = {master:false, size: 2, group: 10};
+		var pagerCfg = {master:false, size: 8, group: 10};
 		if(this.config.pager){
 			webix.extend(pageCfg,this.config.pager);
 		}
@@ -99,9 +105,12 @@ webix.protoUI({
 		var gridCfg = {
 			pager:this._pager.config.id,
 			params:this._searchbar.getSearchObj(),
-			loadahead:4,
-			datafetch:2
+			//loadahead:16,
+			datafetch:this._pager.config.size
 		};
+		if(this.config.usePreLoad){
+			gridCfg["loadahead"] = this._pager.config.size * 2;
+		}
 		if(!this.config.grid){
 			webix.assert_error("missing grid attribute");
 		}
@@ -122,7 +131,11 @@ webix.protoUI({
 			    "password":"1000",
 			    "new":false
 			};
-		this._grid.add(obj);
+		if(this.config.editMode == "grid")
+			this._grid.add(obj);
+		else if(this.config.editMode == 'form'){
+			this._showWin(this._grid);
+		}
 		webix.message({
 			text:'TODO:Add event,'+grid,
 			expire:1000
@@ -158,7 +171,7 @@ webix.protoUI({
 		});
 	},
 	onDefaultSave:function(){
-		this._searchbar.search();
+		//this._searchbar.search();
 		var dp = webix.dp(this._grid);
 		dp.send();
 	},
@@ -179,14 +192,101 @@ webix.protoUI({
 	reload:function(){
 		this._grid.clearAll();
 		this._grid.load(this._grid.config.url);
+	},
+	_initEditForm:function(grid){
+		var columns = grid.config.columns;
+		var self = this;
+		var form = {
+			view:'form',
+			id:webix.uid(),
+			elements:[],
+			scroll:true,
+			elementsConfig:{
+				labelPosition:"top"
+			}
+		};
+		for(var i=0; i<columns.length; i++){
+			form.elements.push({
+				view:"text",
+				name:columns[i].id,
+				label:columns[i].header[0].text
+			});
+		}
+		var submitFunc = function(){
+			var parentForm = this.getFormView();
+			console.log(parentForm.getValues());
+			var obj = parentForm.getValues();
+			if(obj.id == ""){
+				obj.id = null;
+			}
+			grid.add(obj,0);
+			//self.onDefaultSave();
+		};
+		form.elements.push({ view:"button", value: "Submit",click:submitFunc});
+		return form;
+	},
+	_showWin:function(grid,update){
+		var form = this._initEditForm(grid);
+		var win = webix.ui({
+			view:"window",
+			height:500,width:400,
+			position:'center',
+			move:true,
+		    head:{
+				view:"toolbar", margin:-4, cols:[
+				    {view:'label',label:'Update'},
+					{ view:"icon", icon:"times-circle", css:"alter",
+						click:function(){win.close();}}
+				]
+			},
+			body:webix.copy(form)
+		});
+		if(update){
+			$$(form.id).bind(grid);
+		}
+		win.show();
 	}
 },webix.ui.view,webix.EventSystem);
 
+
+
 webix.proxy.jsonrest = {
-	init:function(){
-        webix.extend(this, webix.proxy.rest);
+	$proxy:true,
+    saveAll:function(view, updates, dp, callback){
+    	var url = this.source;
+		url += url.charAt(url.length-1) == "/" ? "" : "/";
+		var data = {};
+		var ids = [];
+		for (var i = 0; i < updates.length; i++) {
+			var action = updates[i];
+			ids.push(action.id);
+			var mode = action.operation;
+			if(mode == 'insert') delete action.data.id;
+			if(data[mode]){
+				data[mode].push(action.data);
+			}else{
+				data[mode] = [action.data];
+			}
+		}
+		for(o in data){
+			if(o == "update"){
+				webix.ajax().header({
+					'Content-Type':'application/json'
+				}).put(url + data.id, JSON.stringify(data[o]), callback);
+			} 
+			if(o == "delete") {
+				webix.ajax().header({
+					'Content-Type':'application/json'
+				}).del(url + data.id, JSON.stringify(data[o]), callback);
+			}
+			if(o == "insert") {
+				webix.ajax().header({
+					'Content-Type':'application/json'
+				}).post(url, JSON.stringify(data[o]), callback);
+			}
+		}
     },
-    save:function(view, update, dp, callback){
+    save_:function(view, update, dp, callback){
 		var url = this.source;
 		url += url.charAt(url.length-1) == "/" ? "" : "/";
 		var mode = update.operation;
@@ -285,3 +385,4 @@ webix.UIManager.addHotKey("enter", function(view){
   }
 }, "text");
 
+webix.debug = false;

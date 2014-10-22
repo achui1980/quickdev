@@ -42,29 +42,34 @@ public class BaseRestService {
 	@Path("/{service}/op/{domain}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public  Response add(@PathParam("service") String serviceName, @PathParam("domain") String domain,Object obj){
-		Object convert = convert(domain, obj);
+	public  Response add(@PathParam("service") String serviceName, @PathParam("domain") String domain,List list){
+		
+		int i = 0;
+		for(Object object : list){
+			Object convert = convert(domain, object);
+			list.set(i++, convert);
+		}
 		BaseService service = ServiceHelper.getBaseService(serviceName);
-		convert = service.save(convert);
-		return Response.ok().entity(convert).type(MediaType.APPLICATION_JSON).build();
+		service.saveorupdateAll(list);
+		return Response.ok().entity("{status:200}").type(MediaType.APPLICATION_JSON).build();
 	}
 	
 	@PUT
 	@Path("/{service}/op/{domain}/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response edit(@PathParam("service") String serviceName, @PathParam("domain") String domain,Object obj){
-		return add(serviceName,domain,obj);
+	public Response edit(@PathParam("service") String serviceName, @PathParam("domain") String domain,List list){
+		return add(serviceName,domain,list);
 	}
 	
 	@DELETE
-	@Path("/{service}/op/{domain}/{id}")
+	@Path("/{service}/op/{domain}/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response delete(@PathParam("id") Integer id,@PathParam("service") String serviceName){
+	public Response delete(List list,@PathParam("service") String serviceName){
 		BaseService service = ServiceHelper.getBaseService(serviceName);
-		service.delete(id);
-		return Response.ok().entity(id).type(MediaType.APPLICATION_JSON).build();
+		service.deleteInBatch(list);
+		return Response.ok().entity("{status:200}").type(MediaType.APPLICATION_JSON).build();
 	}
 	
 	@POST
