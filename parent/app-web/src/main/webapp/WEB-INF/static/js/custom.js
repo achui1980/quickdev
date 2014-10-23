@@ -9,7 +9,7 @@ webix.protoUI({
 		/*
 		 * grid:edit in grid, form:edit in popup window.
 		 * */
-		editMode:"grid"
+		editMode:"form"
 	},
 	$init:function(config){
 		this.$ready.push(this._init_gridex);
@@ -43,8 +43,10 @@ webix.protoUI({
 		dp.attachEvent('onAfterSync', function(id, text, data,loader){ 
 			if(self._searchbar)
 				self._searchbar.search();
-			else
+			else{
 				self.reload();
+			}
+			dp.reset();
 		});
 	},
 	_initTbar:function(grid){
@@ -195,6 +197,7 @@ webix.protoUI({
 	reload:function(){
 		this._grid.clearAll();
 		this._grid.load(this._grid.config.url);
+		this._grid.refresh();
 	},
 	_initEditForm:function(grid){
 		var columns = grid.config.columns;
@@ -219,13 +222,15 @@ webix.protoUI({
 			var parentForm = this.getFormView();
 			console.log(parentForm.getValues());
 			var obj = parentForm.getValues();
-			if(!this._isUpdate)
-				grid.add(obj,0);
-			else{
-				var sel = grid.getSelectedId();
-				grid.updateItem(sel.row,obj);
+			if(self.callEvent("onBeforSubmit",[obj,self])){
+				if(!self._isUpdate)
+					grid.add(obj,0);
+				else{
+					var sel = grid.getSelectedId();
+					grid.updateItem(sel.row,obj);
+				}
+				self.onDefaultSave();
 			}
-			self.onDefaultSave();
 		};
 		form.elements.push({ view:"button", value: "Submit",click:submitFunc});
 		return form;
@@ -247,10 +252,10 @@ webix.protoUI({
 			},
 			body:webix.copy(form)
 		});
+		win.show();
 		if(update){
 			$$(form.id).bind(grid);
 		}
-		win.show();
 	}
 },webix.ui.view,webix.EventSystem);
 
@@ -357,7 +362,6 @@ webix.protoUI({
 	search:function(){
 		var gridEx = webix.$$(this.config.grid);
 		gridEx.getGrid().params = this.getSearchObj();
-		console.log(this.getSearchObj());
 		gridEx.reload();
 	}
 },webix.ui.toolbar);
