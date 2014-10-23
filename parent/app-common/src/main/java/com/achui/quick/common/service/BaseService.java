@@ -1,6 +1,7 @@
 package com.achui.quick.common.service;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,10 @@ public abstract class BaseService<M, ID extends Serializable> {
 		baseRepository.delete(id);
 	}
 	
+	public void deleteInBatch(Iterable<M> entities){
+		baseRepository.deleteInBatch(entities);
+	}
+	
 	public void delete(List<ID> ids){
 		baseRepository.delete(ids);
 	}
@@ -78,8 +83,10 @@ public abstract class BaseService<M, ID extends Serializable> {
 		return baseRepository.findAll(ids);
 	}
 	
-	public List<M> saveorupdateAll(List<M> records){
-		return baseRepository.saveorupdateAll(records);
+	public List<M> save(List<M> records){
+		records = baseRepository.save(records);
+		baseRepository.flush();
+		return records;
 	}
 	
 	public int batchUpdate(String ql, Object... params){

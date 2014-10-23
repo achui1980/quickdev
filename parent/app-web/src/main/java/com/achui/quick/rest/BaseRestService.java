@@ -21,12 +21,15 @@ import org.springframework.data.domain.PageRequest;
 import com.achui.quick.common.service.BaseService;
 import com.achui.quick.constants.ServiceConstants;
 import com.achui.quick.domain.Json;
+import com.achui.quick.domain.custom.JSONResponse;
+import com.achui.quick.domain.custom.JSONResponseStatus;
 import com.achui.quick.query.Query;
 import com.achui.quick.query.QueryHelper;
 import com.achui.quick.spring.ServiceHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("service")
+@SuppressWarnings("all")
 public class BaseRestService {
 
 	private Logger logger = LoggerFactory.getLogger(BaseRestService.class);
@@ -43,33 +46,39 @@ public class BaseRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public  Response add(@PathParam("service") String serviceName, @PathParam("domain") String domain,List list){
-		
-		int i = 0;
-		for(Object object : list){
-			Object convert = convert(domain, object);
-			list.set(i++, convert);
-		}
+		JSONResponse response = buildJSONResponseStatus(JSONResponseStatus.Status.OK.getStatusCode(), null, false);
+		converToList(domain, list);
 		BaseService service = ServiceHelper.getBaseService(serviceName);
-		service.saveorupdateAll(list);
-		return Response.ok().entity("{status:200}").type(MediaType.APPLICATION_JSON).build();
+		service.save(list);
+		return Response.ok().entity(response).type(MediaType.APPLICATION_JSON).build();
 	}
 	
 	@PUT
-	@Path("/{service}/op/{domain}/{id}")
+	@Path("/{service}/op/{domain}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response edit(@PathParam("service") String serviceName, @PathParam("domain") String domain,List list){
-		return add(serviceName,domain,list);
+		JSONResponse response = buildJSONResponseStatus(JSONResponseStatus.Status.OK.getStatusCode(), null, false);
+		converToList(domain, list);
+		BaseService service = ServiceHelper.getBaseService(serviceName);
+		service.save(list);
+//		for(int i=0; i<list.size(); i++){
+//			service.save(list.get(i));
+//		}
+//		service.save(list.get(0));
+		return Response.ok().entity(response).type(MediaType.APPLICATION_JSON).build();
 	}
 	
 	@DELETE
 	@Path("/{service}/op/{domain}/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response delete(List list,@PathParam("service") String serviceName){
+	public Response delete(List list,@PathParam("service") String serviceName,@PathParam("domain") String domain){
+		JSONResponse response = buildJSONResponseStatus(JSONResponseStatus.Status.OK.getStatusCode(), null, false);
 		BaseService service = ServiceHelper.getBaseService(serviceName);
+		converToList(domain, list);
 		service.deleteInBatch(list);
-		return Response.ok().entity("{status:200}").type(MediaType.APPLICATION_JSON).build();
+		return Response.ok().entity(response).type(MediaType.APPLICATION_JSON).build();
 	}
 	
 	@POST
@@ -102,5 +111,22 @@ public class BaseRestService {
 			logger.error("class not found", e);
 		}
 		return result;
+	}
+	
+	private void converToList(String domain, List list){
+		int i = 0;
+		for(Object object : list){
+			Object convert = convert(domain, object);
+			list.set(i++, convert);
+		}
+	}
+	
+	private JSONResponse buildJSONResponseStatus(int status, String errorMessage, boolean hasErrors) {
+		JSONResponse response = new JSONResponse();
+		response.setStatus(status);
+		response.setStatusMessage(JSONResponseStatus.Status.getStatusNameByCode(status));
+		response.setErrorMessage(errorMessage);
+		response.setHasErrors(hasErrors);
+		return response;
 	}
 }

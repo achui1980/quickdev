@@ -150,6 +150,9 @@ webix.protoUI({
 			});
 			return;
 		}
+		if(this.config.editMode == 'form'){
+			this._showWin(this._grid,true);
+		}
 		webix.message({
 			text:'TODO:Mod event,'+rows[0],
 			expire:1000
@@ -216,16 +219,19 @@ webix.protoUI({
 			var parentForm = this.getFormView();
 			console.log(parentForm.getValues());
 			var obj = parentForm.getValues();
-			if(obj.id == ""){
-				obj.id = null;
+			if(!this._isUpdate)
+				grid.add(obj,0);
+			else{
+				var sel = grid.getSelectedId();
+				grid.updateItem(sel.row,obj);
 			}
-			grid.add(obj,0);
-			//self.onDefaultSave();
+			self.onDefaultSave();
 		};
 		form.elements.push({ view:"button", value: "Submit",click:submitFunc});
 		return form;
 	},
 	_showWin:function(grid,update){
+		this._isUpdate = update;
 		var form = this._initEditForm(grid);
 		var win = webix.ui({
 			view:"window",
@@ -272,12 +278,12 @@ webix.proxy.jsonrest = {
 			if(o == "update"){
 				webix.ajax().header({
 					'Content-Type':'application/json'
-				}).put(url + data.id, JSON.stringify(data[o]), callback);
+				}).put(url, JSON.stringify(data[o]), callback);
 			} 
 			if(o == "delete") {
 				webix.ajax().header({
 					'Content-Type':'application/json'
-				}).del(url + data.id, JSON.stringify(data[o]), callback);
+				}).del(url, JSON.stringify(data[o]), callback);
 			}
 			if(o == "insert") {
 				webix.ajax().header({
@@ -286,28 +292,10 @@ webix.proxy.jsonrest = {
 			}
 		}
     },
-    save_:function(view, update, dp, callback){
-		var url = this.source;
-		url += url.charAt(url.length-1) == "/" ? "" : "/";
-		var mode = update.operation;
-
-		var data = update.data;
-		if (mode == "insert") delete data.id;
-
-		//call rest URI
-		if (mode == "update"){
-			webix.ajax().header({
-				'Content-Type':'application/json'
-			}).put(url + data.id, JSON.stringify(data), callback);
-		} else if (mode == "delete") {
-			webix.ajax().header({
-				'Content-Type':'application/json'
-			}).del(url + data.id, JSON.stringify(data), callback);
-		} else {
-			webix.ajax().header({
-				'Content-Type':'application/json'
-			}).post(url, JSON.stringify(data), callback);
-		}
+    result:function(state, view, dp, text, data, loader){
+		data = data.json();
+		if (!data)
+			return dp._processError(null, text, data, loader);
 	}
 };
 webix.proxy.querypost = {
@@ -349,9 +337,8 @@ webix.protoUI({
 		this.addView(icon);
 	},
 	getSearchObj:function(){
-		var self = this;
 		var searchObj = {
-			domain:"SysUser",
+			domain:this.config.domain,
 			params:[]
 		};
 		webix.toArray(this.getChildViews()).each(function(view){

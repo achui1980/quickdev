@@ -34,8 +34,6 @@ public interface BaseRepository<M,ID extends Serializable> extends JpaRepository
 	
 	public Long count(String ql,Object... params);
 	
-	public List<M> saveorupdateAll(List<M> records);
-	
 	public int batchUpdate(String ql, Object... params);
 	
 	public int batchUpdate(String ql, Map<String, Object> paramsMap);

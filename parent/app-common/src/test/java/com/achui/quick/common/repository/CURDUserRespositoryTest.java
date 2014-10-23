@@ -59,7 +59,7 @@ public class CURDUserRespositoryTest extends BaseIT{
 		user.setPassword("11111");
 		List<TestUser> list = new ArrayList<TestUser>();
 		list.add(user);
-		userRespository.saveorupdateAll(list);
+		userRespository.save(list);
 	}
 	
 }

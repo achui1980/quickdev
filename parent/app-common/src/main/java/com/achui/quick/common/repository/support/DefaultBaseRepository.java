@@ -98,13 +98,6 @@ implements BaseRepository<M, ID>{
 		return respositoryHelper.count(ql, paramMap);
 	}
 
-	public List<M> saveorupdateAll(List<M> records) {
-		if(CollectionUtils.isEmpty(records)){
-			return null;
-		}
-		return super.save(records);
-	}
-
 	public List findAll(String ql, Pageable pageable, Object... params) {
 		// TODO Auto-generated method stub
 		return respositoryHelper.findAll(ql, pageable, params);
