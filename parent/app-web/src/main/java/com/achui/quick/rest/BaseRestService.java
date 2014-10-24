@@ -23,9 +23,12 @@ import com.achui.quick.constants.ServiceConstants;
 import com.achui.quick.domain.Json;
 import com.achui.quick.domain.custom.JSONResponse;
 import com.achui.quick.domain.custom.JSONResponseStatus;
+import com.achui.quick.exception.DatabaseException;
+import com.achui.quick.exception.MessageConstants;
 import com.achui.quick.query.Query;
 import com.achui.quick.query.QueryHelper;
 import com.achui.quick.spring.ServiceHelper;
+import com.achui.quick.util.JSONResponposeBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("service")
@@ -46,10 +49,15 @@ public class BaseRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public  Response add(@PathParam("service") String serviceName, @PathParam("domain") String domain,List list){
-		JSONResponse response = buildJSONResponseStatus(JSONResponseStatus.Status.OK.getStatusCode(), null, false);
+		JSONResponse response = JSONResponposeBuilder.buildJSONResponseStatus(JSONResponseStatus.Status.OK.getStatusCode(), null, false);
 		converToList(domain, list);
-		BaseService service = ServiceHelper.getBaseService(serviceName);
-		service.save(list);
+		try{
+			BaseService service = ServiceHelper.getBaseService(serviceName);
+			service.save(list);
+		}catch(Exception ex){
+			logger.error(MessageConstants.ERROR_MSG_DATABASE,ex);
+			throw new DatabaseException(ex.getMessage());
+		}
 		return Response.ok().entity(response).type(MediaType.APPLICATION_JSON).build();
 	}
 	
@@ -58,15 +66,7 @@ public class BaseRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response edit(@PathParam("service") String serviceName, @PathParam("domain") String domain,List list){
-		JSONResponse response = buildJSONResponseStatus(JSONResponseStatus.Status.OK.getStatusCode(), null, false);
-		converToList(domain, list);
-		BaseService service = ServiceHelper.getBaseService(serviceName);
-		service.save(list);
-//		for(int i=0; i<list.size(); i++){
-//			service.save(list.get(i));
-//		}
-//		service.save(list.get(0));
-		return Response.ok().entity(response).type(MediaType.APPLICATION_JSON).build();
+		return add(serviceName, domain, list);
 	}
 	
 	@DELETE
@@ -74,10 +74,15 @@ public class BaseRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response delete(List list,@PathParam("service") String serviceName,@PathParam("domain") String domain){
-		JSONResponse response = buildJSONResponseStatus(JSONResponseStatus.Status.OK.getStatusCode(), null, false);
+		JSONResponse response = JSONResponposeBuilder.buildJSONResponseStatus(JSONResponseStatus.Status.OK.getStatusCode(), null, false);
 		BaseService service = ServiceHelper.getBaseService(serviceName);
 		converToList(domain, list);
-		service.deleteInBatch(list);
+		try{
+			service.deleteInBatch(list);
+		}catch(Exception ex){
+			logger.error(MessageConstants.ERROR_MSG_DATABASE,ex);
+			throw new DatabaseException(ex.getMessage());
+		}
 		return Response.ok().entity(response).type(MediaType.APPLICATION_JSON).build();
 	}
 	
@@ -89,9 +94,16 @@ public class BaseRestService {
 		BaseService service = ServiceHelper.getBaseService(serviceName);
 		Map<String, Object> params = QueryHelper.buildQueryParams(query);
 		PageRequest page = new PageRequest(query.getPage(),query.getPageCount());
-		List userList = //userService.findAll();
-				service.findAll(QueryHelper.buildHQL(query), page, params);
-		Long count = service.count(QueryHelper.buildCountHQL(query), params);
+		List userList = null;
+		Long count = 0L;
+		try{
+			 userList = //userService.findAll();
+					service.findAll(QueryHelper.buildHQL(query), page, params);
+			 count = service.count(QueryHelper.buildCountHQL(query), params);
+		}catch(Exception ex){
+			logger.error(MessageConstants.ERROR_MSG_DATABASE,ex);
+			throw new DatabaseException(ex.getMessage());
+		}
 		Json json = new Json();
 		json.setData(userList);
 		json.setTotal_count(count.intValue());
@@ -119,14 +131,5 @@ public class BaseRestService {
 			Object convert = convert(domain, object);
 			list.set(i++, convert);
 		}
-	}
-	
-	private JSONResponse buildJSONResponseStatus(int status, String errorMessage, boolean hasErrors) {
-		JSONResponse response = new JSONResponse();
-		response.setStatus(status);
-		response.setStatusMessage(JSONResponseStatus.Status.getStatusNameByCode(status));
-		response.setErrorMessage(errorMessage);
-		response.setHasErrors(hasErrors);
-		return response;
 	}
 }

@@ -25,13 +25,13 @@ import org.springframework.data.domain.PageRequest;
 import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.Json;
 import com.achui.quick.domain.SysUser;
+import com.achui.quick.exception.DatabaseException;
 import com.achui.quick.query.Query;
 import com.achui.quick.query.QueryHelper;
 import com.achui.quick.service.MyUserService;
 import com.achui.quick.spring.BasicSpringContext;
 import com.achui.quick.spring.ISpringContext;
 import com.achui.quick.spring.ServiceHelper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("hello")
 public class HelloJersey {
@@ -47,7 +47,9 @@ public class HelloJersey {
 	@Produces("text/plain")
 	public String hello(){
 		log.info("hello");
-		BaseService service  = ServiceHelper.getBaseService("myuserService");
+		BaseService service  = ServiceHelper.getBaseService("myuserService2");
+		if(service == null)
+			throw new DatabaseException("Can't get Service of service name :myuserService2");
 		return "Hello World,achui,"+userService+"	baseservice:"+service.findAll().size();
 	}
 	
