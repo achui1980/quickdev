@@ -264,6 +264,7 @@ webix.protoUI({
 webix.proxy.jsonrest = {
 	$proxy:true,
     saveAll:function(view, updates, dp, callback){
+    	callback.error = this.processError;
     	var url = this.source;
 		url += url.charAt(url.length-1) == "/" ? "" : "/";
 		var data = {};
@@ -272,7 +273,10 @@ webix.proxy.jsonrest = {
 			var action = updates[i];
 			ids.push(action.id);
 			var mode = action.operation;
-			if(mode == 'insert') delete action.data.id;
+			if(mode == 'insert') {
+				delete action.data.id;
+				delete action.data.username;
+			}
 			if(data[mode]){
 				data[mode].push(action.data);
 			}else{
@@ -297,10 +301,29 @@ webix.proxy.jsonrest = {
 			}
 		}
     },
+    processError:function(text, data, loader){
+    	var response = data.json();
+		if (response.hasErrors === true){
+			webix.confirm({
+				text:response.errorMessage,
+				title:'Error Message',
+				type:"alert-error",
+				ok:'see detail',
+				callback:function(result){
+					if(!result) return;
+					webix.alert({
+						title:"Detail",
+						text: response.detailErrorMessage,
+						type:"alert-error",
+						width:600
+					});
+				}
+			});
+		}
+    },
     result:function(state, view, dp, text, data, loader){
 		data = data.json();
-		if (!data)
-			return dp._processError(null, text, data, loader);
+		return dp._processError(null, text, data, loader);
 	}
 };
 webix.proxy.querypost = {

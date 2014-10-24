@@ -14,4 +14,14 @@ public class JSONResponposeBuilder {
 		response.setHasErrors(hasErrors);
 		return response;
 	}
+	
+	public static JSONResponse buildJSONResponseStatus(int status, String errorMessage, boolean hasErrors,String detailErrorMessage) {
+		JSONResponse response = new JSONResponse();
+		response.setStatus(status);
+		response.setStatusMessage(Status.fromStatusCode(status).getReasonPhrase());
+		response.setErrorMessage(errorMessage);
+		response.setDetailErrorMessage(detailErrorMessage);
+		response.setHasErrors(hasErrors);
+		return response;
+	}
 }

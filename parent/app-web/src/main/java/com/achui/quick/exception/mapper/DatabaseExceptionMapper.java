@@ -16,9 +16,9 @@ public class DatabaseExceptionMapper implements ExceptionMapper<DatabaseExceptio
 
 	@Override
 	public Response toResponse(DatabaseException ex) {
-		StringBuffer sb = new StringBuffer(MessageConstants.ERROR_MSG_DATABASE);
-		sb.append(" ").append(ex.getMessage());
-		JSONResponse jsonResponse = JSONResponposeBuilder.buildJSONResponseStatus(Status.INTERNAL_SERVER_ERROR.getStatusCode(), sb.toString(), true);
+		JSONResponse jsonResponse = JSONResponposeBuilder.buildJSONResponseStatus(
+					Status.INTERNAL_SERVER_ERROR.getStatusCode(), 
+					MessageConstants.ERROR_MSG_DATABASE, true,ex.getMessage());
 		return Response.status(Status.INTERNAL_SERVER_ERROR)
 				.entity(jsonResponse)
 				.type(MediaType.APPLICATION_JSON)

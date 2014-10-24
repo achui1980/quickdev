@@ -5,6 +5,7 @@ public class JSONResponse {
 	private String statusMessage;
 	private boolean hasErrors;
 	private String errorMessage;
+	private String detailErrorMessage;
 	private Object data;
 	
 	public int getStatus() {
@@ -37,6 +38,10 @@ public class JSONResponse {
 	public void setData(Object data) {
 		this.data = data;
 	}
-	
-	
+	public String getDetailErrorMessage() {
+		return detailErrorMessage;
+	}
+	public void setDetailErrorMessage(String detailErrorMessage) {
+		this.detailErrorMessage = detailErrorMessage;
+	}
 }
