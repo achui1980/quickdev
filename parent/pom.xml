@@ -13,12 +13,15 @@
   	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hibernate.version>4.3.0.Final</hibernate.version>
+        <hibernate.ehcache.version>4.3.0.Final</hibernate.ehcache.version>
         <mysql.connector.version>5.1.8</mysql.connector.version>
         <slf4j.version>1.7.7</slf4j.version>
         <log4j.version>1.2.12</log4j.version>
         <spring.version>4.0.0.RELEASE</spring.version>
         <shiro.version>1.2.3</shiro.version>
         <jersey.version>2.12</jersey.version>
+        <guava.version>18</guava.version>
+        
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -109,6 +112,21 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${hibernate.ehcache.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>ehcache-core</artifactId>
+                    <groupId>net.sf.ehcache</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -253,16 +271,21 @@
             <version>${shiro.version}</version>
         </dependency>
         <!-- json转换器 -->
-	    <dependency>
+	<!--     <dependency>
 		  <groupId>org.codehaus.jackson</groupId>
 		  <artifactId>jackson-core-lgpl</artifactId>
 		  <version>1.9.8</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
+		  <groupId>com.fasterxml.jackson.jaxrs</groupId>
+		  <artifactId>jackson-jaxrs-json-provider</artifactId>
+		  <version>2.4.2</version>
+		</dependency>
+<!-- 		<dependency>
 		  <groupId>org.codehaus.jackson</groupId>
 		  <artifactId>com.springsource.org.codehaus.jackson.mapper</artifactId>
 		  <version>1.4.3</version>
-		</dependency>
+		</dependency> -->
 		<!-- jersey(rest framework) -->
 		<dependency>
 		    <groupId>org.glassfish.jersey.containers</groupId>
@@ -287,6 +310,11 @@
 		    <groupId>org.glassfish.jersey.media</groupId>
 		    <artifactId>jersey-media-json-jackson</artifactId>
 		    <version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.google.guava</groupId>
+		  <artifactId>guava</artifactId>
+		  <version>18.0</version>
 		</dependency>
     </dependencies>
 </project>

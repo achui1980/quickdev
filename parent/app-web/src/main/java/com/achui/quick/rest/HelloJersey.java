@@ -1,5 +1,6 @@
 package com.achui.quick.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,13 +26,17 @@ import org.springframework.data.domain.PageRequest;
 import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.Json;
 import com.achui.quick.domain.SysUser;
+import com.achui.quick.domain.Word;
+import com.achui.quick.domain.WordJson;
 import com.achui.quick.exception.DatabaseException;
 import com.achui.quick.query.Query;
 import com.achui.quick.query.QueryHelper;
 import com.achui.quick.service.MyUserService;
+import com.achui.quick.service.WordService;
 import com.achui.quick.spring.BasicSpringContext;
 import com.achui.quick.spring.ISpringContext;
 import com.achui.quick.spring.ServiceHelper;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 @Path("hello")
 public class HelloJersey {
@@ -42,6 +47,9 @@ public class HelloJersey {
 	private HttpServletRequest servletRequest;
 	@Autowired
 	private MyUserService userService;
+	
+	@Autowired
+	private WordService wordService;
 	
 	@GET
 	@Produces("text/plain")
@@ -79,6 +87,26 @@ public class HelloJersey {
 //		user.setUsername("achui");
 		return Response.created(uriInfo.getAbsolutePath())
 				.entity(userList).type(MediaType.APPLICATION_JSON)
+				.build();
+		//return user;
+		
+	}
+	@GET
+	@Path("/words")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response getWords(Object obj){
+		
+		List<Word> userList = wordService.findAll();
+//		User user = new User();
+//		//user.setId(100);
+//		user.setPassword("123");
+//		user.setUsername("achui");
+		Words words = new Words(userList);
+		WordJson json = new WordJson();
+		json.setWord(userList);
+		return Response.created(uriInfo.getAbsolutePath())
+				.entity(userList.get(0)).type(MediaType.APPLICATION_JSON)
 				.build();
 		//return user;
 		
@@ -178,4 +206,11 @@ public class HelloJersey {
 			String aaString =  mapper.writeValueAsString(user);
 			System.out.println(aaString);
 	    }
+	 
+		@JsonRootName(value="word")
+		class Words extends ArrayList{
+			public Words(List list){
+				addAll(list);
+			}
+		}
 }

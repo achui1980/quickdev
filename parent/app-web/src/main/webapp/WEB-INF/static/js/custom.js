@@ -323,7 +323,7 @@ webix.proxy.jsonrest = {
     },
     result:function(state, view, dp, text, data, loader){
 		data = data.json();
-		return dp._processError(null, text, data, loader);
+		//return dp._processError(null, text, data, loader);
 	}
 };
 webix.proxy.querypost = {
