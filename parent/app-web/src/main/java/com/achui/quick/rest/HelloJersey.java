@@ -37,6 +37,9 @@ import com.achui.quick.spring.BasicSpringContext;
 import com.achui.quick.spring.ISpringContext;
 import com.achui.quick.spring.ServiceHelper;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 @Path("hello")
 public class HelloJersey {
@@ -95,6 +98,8 @@ public class HelloJersey {
 	@Path("/words")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+//	@JacksonFeatures(serializationEnable = SerializationFeature.WRAP_ROOT_VALUE,
+//    deserializationEnable = DeserializationFeature.UNWRAP_ROOT_VALUE)
 	public Response getWords(Object obj){
 		
 		List<Word> userList = wordService.findAll();
@@ -103,10 +108,10 @@ public class HelloJersey {
 //		user.setPassword("123");
 //		user.setUsername("achui");
 		Words words = new Words(userList);
-		WordJson json = new WordJson();
-		json.setWord(userList);
+		Json json = new Json();
+		json.setData(userList);
 		return Response.created(uriInfo.getAbsolutePath())
-				.entity(userList.get(0)).type(MediaType.APPLICATION_JSON)
+				.entity(userList).type(MediaType.APPLICATION_JSON)
 				.build();
 		//return user;
 		

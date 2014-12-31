@@ -63,7 +63,7 @@
     <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
 
     <bean id="jsonHttpMessageConverter"
-          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
     <import resource="spring-mvc-shiro.xml"/>
 </beans>

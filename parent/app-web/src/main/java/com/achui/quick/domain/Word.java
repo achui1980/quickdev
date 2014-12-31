@@ -2,9 +2,9 @@ package com.achui.quick.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonRootName;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -13,15 +13,14 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  */
 @Entity
 @Table(name="word")
-@JsonRootName("word")
 public class Word  extends com.achui.quick.common.entity.BaseEntity<Integer> implements Serializable  {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="explain")
+	@Column(name="explain_")
 	private String explain;
 
 	@Column(name="is_passed")
-	private byte isPassed;
+	private Integer isPassed;
 	
 	@Column(name="word")
 	private String word;
@@ -37,11 +36,11 @@ public class Word  extends com.achui.quick.common.entity.BaseEntity<Integer> imp
 		this.explain = explain;
 	}
 
-	public byte getIsPassed() {
+	public Integer getIsPassed() {
 		return this.isPassed;
 	}
 
-	public void setIsPassed(byte isPassed) {
+	public void setIsPassed(Integer isPassed) {
 		this.isPassed = isPassed;
 	}
 

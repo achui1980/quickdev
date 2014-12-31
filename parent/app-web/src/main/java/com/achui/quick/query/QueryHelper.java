@@ -1,14 +1,18 @@
 package com.achui.quick.query;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition;
+
+import com.achui.quick.constants.ServiceConstants;
 
 public class QueryHelper {
 
@@ -28,7 +32,8 @@ public class QueryHelper {
 	}
 	
 	public static String buildCountHQL(Query query){
-		String hql = query.getHqlCount() == null ? COUNT_HQL:query.getHqlCount();
+		
+		String hql = (query ==null || query.getHqlCount() == null) ? COUNT_HQL:query.getHqlCount();
 		hql = String.format(hql,query.getDomain());
 		StringBuilder builder = new StringBuilder(hql);
 		builder.append(processQueryParams(query));
@@ -38,11 +43,20 @@ public class QueryHelper {
 	
 	public static Map<String, Object> buildQueryParams(Query query){
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		List<Parameter> params = query.getParams();
-		if(CollectionUtils.isNotEmpty(params)){
-			for(Parameter param : params){
-				buildParameter(param);
-				paramsMap.put(param.getName(), param.getValue());
+		if(query != null){
+			try {
+				//TODO: type convert.
+				Class clzz = Class.forName(ServiceConstants.SERVICE_DOMAIN_PACKAGE+"."+query.getDomain());
+				List<Parameter> params = query.getParams();
+				if(CollectionUtils.isNotEmpty(params)){
+					for(Parameter param : params){
+						buildParameter(param);
+						Object value = convertToType(clzz, param.getName(), param.getValue());
+						paramsMap.put(param.getName(), value);
+					}
+				}
+			} catch (Exception e) {
+				log.error("Build param error:",e);
 			}
 		}
 		log.info("Build param:"+paramsMap.toString());
@@ -78,5 +92,16 @@ public class QueryHelper {
 			}
 		}
 		return builder.toString();
+	}
+	
+	public static Object convertToType(Class clzz,String property,String value){
+		Object object = null;
+		try {
+			Field field = FieldUtils.getDeclaredField(clzz, property,true);
+			object = ConvertUtils.convert(value, field.getType());
+		} catch (Exception e) {
+			log.error("type convert error:",e);
+		}
+		return object;
 	}
 }
