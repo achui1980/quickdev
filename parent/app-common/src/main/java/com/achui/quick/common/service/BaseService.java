@@ -1,7 +1,6 @@
 package com.achui.quick.common.service;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.achui.quick.common.entity.AbstractEntity;
 import com.achui.quick.common.repository.BaseRepository;
 
 @Transactional

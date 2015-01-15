@@ -1,4 +1,5 @@
 <%@include file="/WEB-INF/jsps/common/taglibs.jspf"%>
+<%@include file="/WEB-INF/jsps/common/import-css.jspf"%>
 <%@include file="/WEB-INF/jsps/common/import-js.jspf"%>
-<%@include file="/WEB-INF/jsps/common/import-webix-css.jspf"%>
-<%@include file="/WEB-INF/jsps/common/import-webix-js.jspf"%>
+<%-- <%@include file="/WEB-INF/jsps/common/import-webix-css.jspf"%>
+<%@include file="/WEB-INF/jsps/common/import-webix-js.jspf"%> --%>

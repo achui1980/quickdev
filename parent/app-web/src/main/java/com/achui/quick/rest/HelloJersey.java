@@ -1,5 +1,6 @@
 package com.achui.quick.rest;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +23,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.w3c.dom.Element;
 
 import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.Json;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.domain.Word;
-import com.achui.quick.domain.WordJson;
+import com.achui.quick.domain.custom.ZTreeNode;
 import com.achui.quick.exception.DatabaseException;
 import com.achui.quick.query.Query;
 import com.achui.quick.query.QueryHelper;
@@ -36,10 +38,8 @@ import com.achui.quick.service.WordService;
 import com.achui.quick.spring.BasicSpringContext;
 import com.achui.quick.spring.ISpringContext;
 import com.achui.quick.spring.ServiceHelper;
+import com.achui.quick.util.W3CXML2TreeUtil;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 
 @Path("hello")
 public class HelloJersey {
@@ -195,6 +195,15 @@ public class HelloJersey {
 		
 	}
 	
+	@GET
+	@Path("xml2tree")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response xml2Tree(){
+		Element element = W3CXML2TreeUtil.parse(new File("D:/xml.xml"));
+		ZTreeNode tree = W3CXML2TreeUtil.ztree(element);
+		return Response.ok().entity(tree).type(MediaType.APPLICATION_JSON).build();
+		
+	}
 	 public static void main(String[] args) throws Exception {
 //	        User user = new User();
 //	        user.setId(100);

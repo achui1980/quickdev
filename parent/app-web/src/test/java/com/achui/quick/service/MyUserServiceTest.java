@@ -10,10 +10,8 @@
 //
 //import com.achui.quick.common.test.BaseIT;
 //import com.achui.quick.domain.SysUser;
-//import com.achui.quick.service.AuthService;
-//import com.achui.quick.service.MyUserService;
 //
-//public class AuthServiceTest extends BaseIT{
+//public class MyUserServiceTest extends BaseIT{
 //	@Resource(name="authService")
 //	private AuthService authService;
 //	@Resource(name="myuserService")
@@ -23,8 +21,7 @@
 //	@Test
 //	public void testGetRoleString() {
 //		SysUser user = new SysUser();
-//		user.setId(new Integer(158));
-//		user.setUsername("asd2");
+//		user.setId(new Integer(1));
 //		user.setPassword("dasdf");
 //		List<SysUser> a = new ArrayList<>();
 //		a.add(user);

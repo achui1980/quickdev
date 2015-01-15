@@ -89,4 +89,9 @@ public class IndexController {
 //		model.addAttribute("name","index");
 		return "custom";
 	}
+	
+	@RequestMapping(value="/mapping")
+	public String mapping(HttpServletRequest request, Model model){
+		return "mapping";
+	}
 }
