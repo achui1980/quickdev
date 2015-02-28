@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.achui.quick.annotation.Searchable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -18,11 +19,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class SysUser extends com.achui.quick.common.entity.BaseEntity<Integer> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Searchable(searchable=false)
 	@Column(nullable=true, length=50)
 	@JsonIgnore
 	private String password;
 	
 	@Column(nullable=false, length=20)
+	@Searchable(searchable=true,op="like")
 	private String username;
 
 	public SysUser() {

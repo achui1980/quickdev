@@ -50,9 +50,11 @@ public class QueryHelper {
 				List<Parameter> params = query.getParams();
 				if(CollectionUtils.isNotEmpty(params)){
 					for(Parameter param : params){
+						if(StringUtils.isEmpty(param.getValue())) continue;
 						buildParameter(param);
 						Object value = convertToType(clzz, param.getName(), param.getValue());
-						paramsMap.put(param.getName(), value);
+						if(value != null)
+							paramsMap.put(param.getName(), value);
 					}
 				}
 			} catch (Exception e) {
@@ -64,6 +66,7 @@ public class QueryHelper {
 	}
 	
 	private static void buildParameter(Parameter parameter){
+		if(StringUtils.isEmpty(parameter.getValue())) return;
 		String name = parameter.getName();
 		if(!StringUtils.isEmpty(name)){
 			if(name.indexOf("_") > -1){
@@ -81,8 +84,8 @@ public class QueryHelper {
 		List<Parameter> params = query.getParams();
 		if(CollectionUtils.isNotEmpty(params)){
 			for(Parameter param : params){
-				buildParameter(param);
 				if(!StringUtils.isEmpty(param.getValue())){
+					buildParameter(param);
 					builder.append(" and obj."+param.getName())
 					.append(" ")
 					.append(param.getOp())
@@ -97,7 +100,7 @@ public class QueryHelper {
 	public static Object convertToType(Class clzz,String property,String value){
 		Object object = null;
 		try {
-			Field field = FieldUtils.getDeclaredField(clzz, property,true);
+			Field field = FieldUtils.getField(clzz, property,true);
 			object = ConvertUtils.convert(value, field.getType());
 		} catch (Exception e) {
 			log.error("type convert error:",e);

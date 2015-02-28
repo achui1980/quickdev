@@ -24,7 +24,7 @@ import com.achui.quick.service.MyUserService;
 
 public class UserRealm extends AuthorizingRealm{
 
-	@Resource(name="myuserService")
+	@Resource(name="userService")
 	private MyUserService userService;
 	
 	@Resource(name="authService")

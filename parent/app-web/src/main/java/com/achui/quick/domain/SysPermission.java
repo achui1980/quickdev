@@ -1,7 +1,11 @@
 package com.achui.quick.domain;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.achui.quick.annotation.Display;
+import com.achui.quick.annotation.Searchable;
 
 
 /**
@@ -25,6 +29,8 @@ public class SysPermission extends com.achui.quick.common.entity.BaseEntity<Inte
 	@Column(length=10)
 	private String type;
 
+	@Display(display=false)
+	@Searchable(searchable=false)
 	@Column(name="sys_resource_id", nullable=false)
 	private Integer sysResourceId;
 

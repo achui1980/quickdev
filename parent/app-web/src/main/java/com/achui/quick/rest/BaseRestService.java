@@ -40,7 +40,7 @@ public class BaseRestService {
 	@GET
 	@Produces("text/plain")
 	public String hello(){
-		BaseService service  = ServiceHelper.getBaseService("myuserService");
+		BaseService service  = ServiceHelper.getBaseService("userService");
 		return "Hello World,achui,	baseservice:"+service.findAll().size();
 	}
 	

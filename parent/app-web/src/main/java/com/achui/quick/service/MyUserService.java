@@ -9,7 +9,7 @@ import com.achui.quick.common.service.BaseService;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.repository.MyUserRepository;
 
-@Service("myuserService")
+@Service("userService")
 @Transactional
 public class MyUserService extends BaseService<SysUser, Integer>{
 

@@ -144,7 +144,7 @@ public class HelloJersey {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getUserPost(Map obj){
 		ISpringContext context = BasicSpringContext.getSpringContext();
-		BaseService service  = context.lookup("myuserService");
+		BaseService service  = context.lookup("userService");
 		//obj.setId(null);
 		//obj.setPassword(RandomStringUtils.randomNumeric(6));
 		//service.save(tttObject);
@@ -186,7 +186,7 @@ public class HelloJersey {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getUserDelete(@PathParam("id") Integer id){
-		BaseService service = ServiceHelper.getBaseService("myuserService");
+		BaseService service = ServiceHelper.getBaseService("userService");
 		service.delete(id);
 		return Response.created(uriInfo.getAbsolutePath())
 				.entity(id).type(MediaType.APPLICATION_JSON)

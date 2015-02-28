@@ -1,9 +1,14 @@
 package com.achui.quick.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -19,15 +24,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.achui.quick.constants.ServiceConstants;
+import com.achui.quick.db.ColumnMeta;
+import com.achui.quick.db.DBUtil;
 import com.achui.quick.domain.Json;
 import com.achui.quick.domain.SysUser;
 import com.achui.quick.rest.User;
 import com.achui.quick.service.MyUserService;
+import com.achui.quick.util.FreemarkerHelper;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.reflect.ClassPath;
+import com.sun.research.ws.wadl.Param;
 
 @Controller
 @RequestMapping("/")
 public class IndexController {
 
+	@Resource
+	DataSource dataSource;
+	
 	@Autowired
 	private MyUserService userService;
 	
@@ -93,5 +109,44 @@ public class IndexController {
 	@RequestMapping(value="/mapping")
 	public String mapping(HttpServletRequest request, Model model){
 		return "mapping";
+	}
+	
+	@RequestMapping(value="/autolist")
+	public void autoList(HttpServletRequest request,
+			HttpServletResponse response, Model model){
+		try {
+			String domain = request.getParameter("domain");
+			Class cls = Class.forName(ServiceConstants.SERVICE_DOMAIN_PACKAGE+"."+domain);
+			FreemarkerHelper viewEngine = new FreemarkerHelper();
+			Map<String, ColumnMeta> metaInfo = DBUtil.getMetaInfo(dataSource, cls);
+			List<ColumnMeta> list = Lists.newArrayList();
+			list.addAll(metaInfo.values());
+			Map<String, Object> paras = Maps.newHashMap();
+			paras.put("columnInfoList", list);
+			paras.put("domain", domain);
+			paras.put("serviceName","myuserService");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value="/testftl/{domain}")
+	public String testftl(@PathVariable("domain") String domain, HttpServletRequest request, Model model){
+		try{
+			String serviceName = domain + ServiceConstants.SERVICE_NAME_SUBFIX;
+			domain = ServiceConstants.DOMAIN_PREFIX+StringUtils.capitalize(domain);
+			Class cls = Class.forName(ServiceConstants.SERVICE_DOMAIN_PACKAGE+"."+domain);
+			String serverName = request.getContextPath();
+			Map<String, ColumnMeta> metaInfo = DBUtil.getMetaInfo(dataSource, cls);
+			List<ColumnMeta> list = Lists.newArrayList();
+			list.addAll(metaInfo.values());
+			model.addAttribute("columnInfoMap", metaInfo);
+			model.addAttribute("domain", domain);
+			model.addAttribute("serviceName",serviceName);
+			model.addAttribute("ctx", serverName);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "test";
 	}
 }

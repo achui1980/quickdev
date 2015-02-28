@@ -4,6 +4,7 @@ webix.protoUI({
 		tbarBtnWidth:75,
 		useDefaultBtn:true,
 		tbarControls:[],
+		searchFields:[],
 		//if grid are in edit mode,this value should be set false
 		usePreLoad:false,
 		/*
@@ -25,9 +26,7 @@ webix.protoUI({
 		this._searchbar = new webix.ui.searchbar({
 			grid:self.config.id,
 			domain:self.config.domain,
-			cols:[
-			   {view:'text',name:'username',op:"like",enableSearch:true,placeholder:'username'},
-			],
+			cols:self.config.searchFields,
 			elementsConfig:{
 				width:130
 			}
@@ -35,7 +34,8 @@ webix.protoUI({
 		this._initGrid();
 		this._initTbar(this._grid);
 		_layout.addView(this._tbar);
-		_layout.addView(this._searchbar);
+		if(this.config.searchFields.length > 0)
+			_layout.addView(this._searchbar);
 		_layout.addView(this._grid);
 		_layout.addView(this._pager);
 		_layout.adjust();

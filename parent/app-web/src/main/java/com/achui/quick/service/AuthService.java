@@ -18,7 +18,7 @@ import com.achui.quick.domain.SysUserRole;
 @Service("authService")
 public class AuthService {
 
-	@Resource(name="myuserService")
+	@Resource(name="userService")
 	private MyUserService userService;
 	
 	@Resource(name="permissionService")
