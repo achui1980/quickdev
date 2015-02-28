@@ -52,7 +52,7 @@ public class IndexController {
 		
 		model.addAttribute("name","achui");
 		
-		return "login";
+		return "framework";
 	}
 	
 	@RequestMapping(value="/login")

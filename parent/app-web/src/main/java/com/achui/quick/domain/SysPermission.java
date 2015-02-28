@@ -18,7 +18,7 @@ public class SysPermission extends com.achui.quick.common.entity.BaseEntity<Inte
 	private static final long serialVersionUID = 1L;
 
 	@Column(length=50)
-	private String desc;
+	private String description;
 
 	@Column(nullable=false, length=50)
 	private String name;
@@ -37,14 +37,15 @@ public class SysPermission extends com.achui.quick.common.entity.BaseEntity<Inte
 	public SysPermission() {
 	}
 
-
-	public String getDesc() {
-		return this.desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
+
+
 
 	public String getName() {
 		return this.name;

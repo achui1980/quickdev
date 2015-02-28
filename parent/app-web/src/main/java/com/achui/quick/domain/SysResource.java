@@ -1,7 +1,12 @@
 package com.achui.quick.domain;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.achui.quick.annotation.Display;
+import com.achui.quick.annotation.Searchable;
+
 import java.util.List;
 
 
@@ -16,23 +21,30 @@ public class SysResource extends com.achui.quick.common.entity.BaseEntity<Intege
 
 
 	@Column(length=50)
+	@Searchable(searchable=false)
 	private String icon;
 
 	@Column(name="is_show", length=1)
+	@Searchable(searchable=false)
 	private String isShow;
 
 	@Column(length=30)
 	private String module;
 
-	private Integer order;
+	@Searchable(searchable=false)
+	@Display
+	@Column(name="display_order")
+	private Integer displayOrder;
 
 	@Column(name="parent_ids", length=50)
+	@Searchable(searchable=false)
 	private String parentIds;
 
 	@Column(length=100)
 	private String url;
 
 	@Column(name="parent_id")
+	@Searchable(searchable=false)
 	private Integer parentId;
 
 	public SysResource() {
@@ -62,12 +74,12 @@ public class SysResource extends com.achui.quick.common.entity.BaseEntity<Intege
 		this.module = module;
 	}
 
-	public int getOrder() {
-		return this.order;
+	public Integer getDisplayOrder() {
+		return displayOrder;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 
 	public String getParentIds() {
