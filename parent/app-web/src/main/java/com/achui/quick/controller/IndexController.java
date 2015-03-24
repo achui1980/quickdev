@@ -106,6 +106,16 @@ public class IndexController {
 		return "custom";
 	}
 	
+	@RequestMapping(value="/require")
+	public String require(HttpServletRequest request, Model model){
+		
+//		String userName = request.getParameter("username");
+//		String password = request.getParameter("password");
+//		SecurityUtils.getSubject().login(new UsernamePasswordToken(userName,password));
+//		model.addAttribute("name","index");
+		return "require";
+	}
+	
 	@RequestMapping(value="/mapping")
 	public String mapping(HttpServletRequest request, Model model){
 		return "mapping";

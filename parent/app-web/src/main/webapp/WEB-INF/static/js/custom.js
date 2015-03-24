@@ -275,7 +275,7 @@ webix.proxy.jsonrest = {
 			var mode = action.operation;
 			if(mode == 'insert') {
 				delete action.data.id;
-				delete action.data.username;
+				delete action.data.password;
 			}
 			if(data[mode]){
 				data[mode].push(action.data);

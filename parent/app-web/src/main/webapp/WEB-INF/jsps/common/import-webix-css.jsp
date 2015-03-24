@@ -1,1 +1,1 @@
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/vendor/webix/webix.css" type="text/css"> 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/vendor/webix/skins/air.css" type="text/css"> 

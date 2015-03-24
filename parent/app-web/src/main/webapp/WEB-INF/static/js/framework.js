@@ -1,18 +1,31 @@
 webix.ready(function(){
 	webix.ui({
 		id:'framework',
+		type:'line',
 		rows:[
-		   {template:"row 1", height:50},
+		   {template:'header',height:50},
 		   {
-			   cols:[
-			      {template:"col 1", width:150},
-			      {
-                      view:"resizer"
-                  },
-			      {template:"col 2"},
-			   ]
+				multi:true,
+				type:'line',
+				cols:[
+					{
+						header:"Menu",
+						width:250,
+						body:{
+							multi:false,
+							type:'line',
+							rows:[
+								{ header:"menu1ws1", body:"content3 1"},
+								{ header:"menu15", body:"content 5"}
+							]
+						}
+					},
+					{view:"resizer"},
+					{body:'content'}
+				]
 		   },
-		   {template:"row 3", height:40 },
-		]
+		   {template:'footer',height:50},
+		],
+		
 	});
 });

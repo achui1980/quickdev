@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="/WEB-INF/jsps/common/import-common.jspf"%>
+<%@include file="/WEB-INF/jsps/common/import-common.jsp"%>
 <!DOCTYPE html>
 <html>
 	<head>
 		<script src="${pageContext.request.contextPath}/js/custom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="${pageContext.request.contextPath}/vendor/require.js" data-main="js/main type="text/javascript" charset="utf-8"></script>
+		
 		<title>Button ('button')</title>
 	</head>
 <body>
