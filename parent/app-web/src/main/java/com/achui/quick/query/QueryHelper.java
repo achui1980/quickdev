@@ -107,4 +107,12 @@ public class QueryHelper {
 		}
 		return object;
 	}
+	
+	public static Query buildDefaultQuery(){
+		Query query = new Query();
+		query.setDomain("SysUser");
+		query.setPage(0);
+		query.setPageCount(100);
+		return query;
+	}
 }

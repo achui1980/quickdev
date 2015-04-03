@@ -92,6 +92,8 @@ public class BaseRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response list(@PathParam("service") String serviceName,Query query){
 		BaseService service = ServiceHelper.getBaseService(serviceName);
+		if(query == null)
+			query = QueryHelper.buildDefaultQuery();
 		Map<String, Object> params = QueryHelper.buildQueryParams(query);
 		PageRequest page = new PageRequest(query.getPage(),query.getPageCount());
 		List userList = null;

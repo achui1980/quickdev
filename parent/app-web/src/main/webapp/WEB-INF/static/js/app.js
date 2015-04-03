@@ -15,7 +15,8 @@ define(['static/angular/service/routeResolver'],function(){
 		 
 		 var route = routeResolverProvider.route;
 		 $routeProvider
-		 	.when('/require',route.resolve('Require'));
+		 	.when('/require',route.resolve('Require'))
+		 	.when('/require/:domain',route.resolve('Require'));
 		}         
     ]);
 	return app;

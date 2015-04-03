@@ -8,6 +8,8 @@
 	</head>
 <body>
 	<a href='#/require'>require</a>
+	<a href='#/require/SysUser'>require_user</a>
+	<a href='#/require/SysPermission'>require_perm</a>
 	<div data-ng-view id="ng-view"></div>
 </body>
 </html>
